@@ -729,10 +729,13 @@ The optimisation objectives map directly onto the naval requirements:
         onto compact high-power-density operation.
 \end{itemize}
 
-The design variables, together with the constraint on beginning-of-life
-$k_{\mathrm{eff}}$ at 1000~ppm soluble boron, express the reduced-boron
-and heavy-burnable-poison strategy characteristic of long-life
-naval-heritage cores. The design variables are the following:
+The design variables are the levers of a long-life core, namely the
+fissile loading, the burnable absorber and the geometry of the lattice
+and of the reflector. The soluble boron is held constant at the
+1000~ppm of the NuScale-like benchmark from which the assembly geometry
+is taken, and the constraint on the beginning-of-life multiplication
+factor is applied with that boron present
+(Section~\ref{sec:meth-boron}). The design variables are the following:
 
 \begin{itemize}
   \item The enrichment.
@@ -758,9 +761,12 @@ bound is itself a result on the prototype envelope.
 of the art}
 \label{sec:lit-opt}
 
-The heritage designs of Section~\ref{sec:smr-naval} fix the physical
-frame of the present work. This section reviews how such cores are
-optimised.
+Section~\ref{sec:smr-naval} fixed the design envelope of the core
+studied here: its thermal power, its fuel class, the vessel that bounds
+it and the refuelling interval it has to meet. Those quantities enter
+the present work as fixed input data and as constraints on the design
+space. This section reviews the methods by which a core is optimised
+within such an envelope.
 
 Fuel reloading and core design optimisation keep the cycle length, the
 power level and the feedback within their targets by choosing the
@@ -1080,7 +1086,7 @@ properties make the model a good choice in this setting:
 
 The problem of this thesis falls inside that range. It has four to six
 design variables, and each completed campaign evaluated between 36 and
-114 designs, each one a Monte Carlo depletion. \textbf{For these reasons a
+114 designs, each one a Monte Carlo depletion. \textbf{For these reasons, a
 Gaussian process was chosen as the surrogate model of this thesis.}
 
 The loop is initialised by a space-filling sampling plan, which spreads
@@ -1103,32 +1109,9 @@ inputs~\cite{mckay_lhs_1979}:
 \end{enumerate}
 
 In their comparison, Latin hypercube sampling estimated the mean, the
-variance and the distribution function of the output with a smaller
+variance, and the distribution function of the output with a smaller
 spread than the other two methods. It improves on random sampling when
-certain monotonicity conditions hold~\cite{mckay_lhs_1979}. Forrester,
-S\'obester and Keane describe further plans used in surrogate
-modelling~\cite{forrester_book_2008}:
-
-\begin{itemize}
-  \item Full factorial designs sample a regular grid of levels in every
-        variable. To keep the same sample density, $n$ points in one
-        variable become $n^k$ points in $k$ variables, so the cost rises
-        quickly with the dimension.
-
-  \item Optimised Latin hypercubes start from a random Latin hypercube,
-        whose projections on each axis are evenly spread but whose points
-        may still fall along a diagonal. A space-filling measure, such as
-        the maximin criterion of Morris and Mitchell, is then optimised
-        to spread the points over the whole space.
-
-  \item Latin hypercubes based on orthogonal arrays extend the even
-        spread from single variables to groups of variables.
-
-  \item Sobol sequences and other quasi-random sequences fill the space
-        well, and the plan for $n-1$ points is contained in the plan for
-        $n$ points. They suit studies whose budget of evaluations is not
-        fixed in advance.
-\end{itemize}
+certain monotonicity conditions hold~\cite{mckay_lhs_1979}.
 
 After the initial plan, the loop is driven by infill criteria that
 balance exploration against exploitation. A criterion such as the
@@ -1136,7 +1119,7 @@ expected improvement weighs the prediction of the surrogate against its
 uncertainty, so new designs are placed both where the prediction is
 promising and where the model knows least~\cite{forrester_book_2008}.
 
-For multi-objective problems the hypervolume indicator, the volume of
+For multi-objective problems, the hypervolume indicator, the volume of
 objective space weakly dominated by a front, measures the quality of
 that front~\cite{zitzler_2003_performance}. It can also serve as the
 target of the infill selection.
@@ -1208,7 +1191,7 @@ computing budgets, \textbf{the route taken by this thesis}:
         transport~\cite{romano_openmc_2015} with an in-memory
         Python-coupled depletion capability~\cite{romano_2021_depletion}.
 
-  \item scikit-learn, a Python module of machine learning
+  \item scikit-learn, a Python module for machine learning
         algorithms~\cite{pedregosa_sklearn_2011}, provides the Gaussian
         process regression used as the surrogate model of this thesis.
 
@@ -1263,13 +1246,13 @@ timeline. Each row gives four items for one period:
     Population-based metaheuristics and MOEAs &
     \cite{deb_nsga2_2002} &
     Full Pareto fronts in a single run &
-    Cost prohibitive with high-fidelity physics \\
+    Cost-prohibitive with high-fidelity physics \\
     \addlinespace
     2019 to today &
     Surrogate-assisted search and deep reinforcement learning &
     \cite{whyte_2020,seurin_2024_pearl} &
     Sample efficiency and learned placement policies &
-    Surrogate accuracy in high dimension and heavy training cost \\
+    Surrogate accuracy in high dimensions and heavy training cost \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -1723,8 +1706,9 @@ It differs from them in three ways:
         depletion, so no beginning-of-life proxy stands in for it. It is
         the mission parameter of the core, tied to its refuelling
         interval, and its role changed during the study. Campaigns 1 to 8
-        maximised it as an objective. Campaign 9 imposed it as a
-        constraint at the five-year requirement and minimised the soluble
+        maximised it as an objective. Campaign 9 imposed it as a lower
+        bound, requiring a cycle of at least five years, 1826 effective
+        full-power days at full capacity, and minimised the soluble
         boron concentration needed at the most reactive state in its
         place (Section~\ref{sec:meth-c9}).
 
@@ -1787,14 +1771,25 @@ same trends. More gadolinia rods per assembly lower the starting
 multiplication factor, and a higher concentration lowers the reactivity
 peak and moves it to higher burnup~\cite{song_sanchez_2026}.
 
-The burnout shapes the reactivity history. In an assembly with gadolinia
+The burnout shapes the reactivity history, as
+Figure~\ref{fig:lr-gd-kinf} shows for an assembly at 5\,wt\%
+$^{235}$U with 1.00 to 6.00\,wt\% natural gadolinia and for the same
+fuel without absorber. In an assembly with gadolinia,
 the multiplication factor first rises and reaches its maximum, the peak
 reactivity, when the absorber is almost depleted~\cite{gd_enriched_2021}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.78\linewidth]{images/lr_gd_kinf.pdf}
+  \caption[Reactivity history of gadolinia-bearing fuel]{Multiplication factor against burnup for gadolinia contents of 1.00 to 6.00\,wt\%.\newline Figure taken from~\cite{gd_enriched_2021}.}
+  \label{fig:lr-gd-kinf}
+\end{figure}
+
 In the submarine cores studied by Ippolito, this peak occurs where the
 reactivity added by gadolinia depletion equals the reactivity lost to
-uranium depletion~\cite{ippolito_1990}. After burnout the unburned poison
-and the fissile material it displaced leave a burnup
-penalty~\cite{alam_partI_2019}, which for natural gadolinia is small,
+uranium depletion~\cite{ippolito_1990}. A larger gadolinia content lowers
+the peak and moves it to higher burnup~\cite{gd_enriched_2021}. After
+burnout, the unburned poison and the fissile material it displaced leave a burnup penalty~\cite{alam_partI_2019}, which for natural gadolinia is small,
 below $0.2\%\,\Delta k$ near 45\,GWd/MTU~\cite{ba_snf_2001}.
 
 Gadolinia is also a means of limiting the soluble boron:
@@ -1802,7 +1797,7 @@ Gadolinia is also a means of limiting the soluble boron:
 \begin{itemize}
   \item The U.S.\ EPR uses integral burnable absorbers in its first core,
         the initial fuel loading with which a new plant starts operation.
-        With soluble boron alone the moderator temperature coefficient of
+        With soluble boron alone, the moderator temperature coefficient of
         that core could be positive at the beginning of life, so the
         absorbers reduce the boron concentration and keep the coefficient
         negative at power~\cite{epr_fsar_ch4}.
