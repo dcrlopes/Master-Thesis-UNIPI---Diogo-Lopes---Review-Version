@@ -13,6 +13,88 @@
 \section{Optimisation problem}
 \label{sec:meth-problem}
 
+\begin{equation}
+g_\mathrm{geom} \;=\; R_\mathrm{env}(p) \;+\; \delta \;+\;
+t_\mathrm{refl} \;+\; c_\mathrm{v} \;-\; R_\mathrm{v} \;\le\; 0
+\label{eq:ggeom}
+\end{equation}
+
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \caption{Constraints: definition and evaluation level.}
+  \label{tab:constraints}
+\begin{tabularx}{\textwidth}{
+    >{\raggedright\arraybackslash}p{0.15\textwidth}
+    >{\raggedright\arraybackslash}p{0.40\textwidth}
+    >{\raggedright\arraybackslash}X
+}
+    \toprule
+    Constraint & Definition & Evaluation level \\
+    \midrule
+    $g_{k\min}$ 
+        & $1.02 - k_\mathrm{BOL} \le 0$
+        & assembly to C5, \textbf{core} from C6 \\
+
+    $g_{k\max}$ 
+        & $k_\mathrm{BOL} - k_{\max} \le 0$
+        & assembly to C5, \textbf{core} from C6, 
+          $k_{\max}$ of Table~\ref{tab:ctrl-bounds} \\
+
+    $g_\mathrm{enr}$ 
+        & $e_\mathrm{zoned,max} - e_\mathrm{cap} \le 0$
+        & algebraic, $e_\mathrm{cap}$ per campaign \\
+
+    $g_\mathrm{peak}$ 
+        & $F_{\Delta H} - 2.0 \le 0$
+        & assembly in C1 to C3, \textbf{core} from C4 \\
+
+    $g_\mathrm{geom}$ 
+        & $R_\mathrm{env}(p) + \delta + t_\mathrm{refl} + c_\mathrm{v} - 90 \le 0$
+        & core, analytic, lattice pad $\delta$ of
+          Equation~\eqref{eq:ggeom}, clearance $c_\mathrm{v}$ of 
+          Section~\ref{sec:meth-c8-space} \\
+
+    $g_\mathrm{ctrl}$ 
+        & $k_\mathrm{RE} - 0.99 \le 0$
+        & \textbf{core}, the sixteen regulating-bank assemblies in,
+          from C7 \\
+
+    $g_\mathrm{ctrl,12}$ 
+        & $k_\mathrm{RE12} - 0.99$
+        & core, first two banks in, from C8, 
+          \emph{recorded, not constrained} \\
+    \bottomrule
+\end{tabularx}
+\end{table}
+
+
+\begin{table}[htbp]
+  \centering
+  \caption{Design variables and bounds (Campaigns 1 to 4).}
+  \label{tab:design-space}
+  \begin{tabular}{llcc}
+    \toprule
+    Variable & Meaning & Bounds & Unit \\
+    \midrule
+    $e_\mathrm{in}$   & inner-zone enrichment        & 2.0 -- 19.75 & wt\% $^{235}$U \\
+    $e_\mathrm{out}$  & outer-zone enrichment        & 2.0 -- 19.75 & wt\% $^{235}$U \\
+    $\mathrm{gd}$     & Gd$_2$O$_3$ in poisoned pins & 0 -- 8.0     & wt\% \\
+    $p$               & pin pitch                    & 1.15 -- 1.43 & cm \\
+    $t_\mathrm{refl}$ & reflector thickness          & 2.0 -- 19.5  & cm \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+
+\begin{equation}
+g_j(\mathbf{x}) \le 0,
+\qquad j = 1,\dots,n_g
+\label{eq:constraint_form}
+\end{equation}
+
+
 \subsection{Problem statement}
 
 \subsection{Geometric feasibility}
@@ -22,6 +104,25 @@
 
 \subsection{Controllability screen and the reactivity ceiling}
 \label{sec:meth-ctrl}
+
+\begin{table}[htbp]
+  \centering
+  \caption{Reactivity ceilings by campaign and their provenance.}
+  \label{tab:ctrl-bounds}
+  \small
+  \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{0.16\textwidth}c>{\raggedright\arraybackslash}p{0.20\textwidth}>{\raggedright\arraybackslash}X@{}}
+    \toprule
+    Campaigns & $k_{\max}$ & Basis & Provenance \\
+    \midrule
+    C1 to C6 & 1.35  & assembly, then core & adopted screening value \\
+    retrospective & 1.368 & core, 2D & all seven banks, \SI{1000}{pcm}, eight C6 designs \\
+    C7 & 1.126 & core, 2D & four regulating banks, eight C6 designs, worths \num{12174} to \SI{12718}{pcm} \\
+    C7 measured & 1.099 to 1.217 & core, 2D & implied by each design's own worth, 60 designs \\
+    C8 & 1.166 & core, 2D from 3D & smallest 3D worth \SI{14307}{pcm}, times $L_\mathrm{ax}$ \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
 
 \subsection{Objective functions}
 \label{sec:objective_functions}
@@ -45,8 +146,31 @@
 \subsection{Acquisition function}
 \label{sec:meth-acq}
 
+\subsection{Surrogate and loop settings}
+\label{sec:meth-loop-settings}
+
+
 \subsection{Search setting on the surrogate}
 \label{sec:meth-nsga-setting}
+
+\begin{table}[htbp]
+  \centering
+  \caption{Surrogate-search sensitivity on the frozen Campaign 6 design-of-experiments archive.}
+  \label{tab:nsga-sens}
+  \begin{tabular}{lcccc}
+    \toprule
+    Setting & Hypervolume & Seed std & Distance & Time (s) \\
+    \midrule
+    $60\times80$   & 1903 & 12.72 & 0.000 & 0.45 \\
+    $80\times120$  & 1913 & 20.41 & 0.073 & 0.82 \\
+    $120\times160$ & 1932 &  5.95 & 0.097 & 1.47 \\
+    $200\times200$ & 1940 &  1.67 & 0.088 & 2.82 \\
+    $200\times400$ & 1943 &  1.36 & 0.095 & 5.63 \\
+    $300\times400$ & 1945 &  0.59 & 0.102 & 8.22 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
 
 \section{Validation of the optimisation framework}
 \label{sec:validation-framework}
@@ -65,6 +189,32 @@
 
 \section{ATF discharge-burnup limit}
 \label{sec:meth-atf}
+
+The discharge limit adopted is $B_\mathrm{ATF} = 75$\,MWd/kgHM. It is a
+screening value of this work, placed between two limits reported in the
+literature:
+
+\begin{itemize}
+  \item Uranium dioxide fuel in zirconium cladding carries an
+        established exposure limit of \SI{62}{MWd/kgHM} rod average and
+        \SI{55}{MWd/kgHM} assembly average~\cite{song_sanchez_2026}. The
+        assembly-average value is the one comparable with
+        $B_\mathrm{ATF}$, because the depletion of this work is computed
+        on the assembly and its burnup is referred to the heavy-metal
+        mass of the whole assembly. The limit follows from cladding
+        oxidation, and accident-tolerant cladding is the route to
+        exceeding it~\cite{alam_2019_hotchannel}.
+
+  \item Studies of advanced fuel for long-cycle marine cores adopt
+        discharge limits of up to
+        \SI{100}{MWd/kgHM}~\cite{alam_partI_2019}.
+\end{itemize}
+
+The value used here is therefore compatible with an accident-tolerant
+fuel that exceeds the present limit, without assuming the performance of
+the most advanced concepts. It is not taken from a qualification
+programme.
+
 
 \section{Statistical treatment of the peaking estimator}
 \label{sec:meth-stats}

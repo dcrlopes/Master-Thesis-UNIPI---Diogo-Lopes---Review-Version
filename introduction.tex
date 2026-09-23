@@ -55,9 +55,9 @@ Nuclear de Aramar in Iperó, São Paulo~\cite{ctmsp_visita_2018}. It
 was built to test the nuclear reactor of the submarine Álvaro
 Alberto~\cite{vasconcelos_fapesp_2025}.
 
-The plant serves to validate the design conditions and to test the
+The plant serves to validate the design and to test the
 operating conditions of this nuclear propulsion
-plant~\cite{ctmsp_labgene_2015}. The land-based prototype reactor, the
+system~\cite{ctmsp_labgene_2015}. The land-based prototype reactor, the
 submarine, its reactor and its fuel are designed and built in
 Brazil~\cite{brazil_npt_wp13_2026}.
 
@@ -98,7 +98,7 @@ Two further points complete what is known:
         is available from any open source.
 \end{itemize}
 
-The study is therefore built exclusively from open sources, and the
+The present study is therefore built exclusively from open sources, and the
 four facts above anchor the model. The other inputs are obtained in two
 ways:
 
@@ -136,16 +136,15 @@ core design in opposite directions, for the following reasons:
   \item That reactivity must be held down by burnable absorbers, by
         soluble boron and by the control rods.
 
-  \item The enrichment zoning and the absorber placement that the long
-        cycle motivates degrade the radial peaking factor
-        $F_{\Delta H}$, the thermal-margin quantity of first interest
+  \item The enrichment zoning and the absorber placement, which the long
+        cycle motivates, degrade the radial peaking factor
+        $F_{\Delta H}$, i.e. the thermal-margin quantity of first interest
         in this work.
 \end{enumerate}
 
 The design problem therefore has two competing objectives, and no
 single design is best in both. Two different calculations take part in
-solving it, and their costs
-are very different:
+solving it, and their costs are very different:
 
 \begin{itemize}
   \item \textbf{The evaluation of a design:} The OpenMC
@@ -160,16 +159,14 @@ are very different:
         thousand designs.
 \end{itemize}
 
-If every request of the genetic algorithm were answered by an OpenMC
-evaluation, a single search would need several thousand runs of fifteen
-to twenty-five minutes each. For the 4800 evaluations of one search
+If an OpenMC evaluation answered every request of the genetic algorithm, every single search would need several thousand runs of fifteen to twenty-five minutes each. For the 4800 evaluations of one search
 described in Section~\ref{sec:bg-moo}, that is 1200 to 2000 hours, or
 seven to twelve weeks of continuous computation, and the loop repeats
-the search at every iteration. Coupling the search directly to OpenMC is
+the search at every iteration. Coupling the search directly with OpenMC is
 therefore out of reach.
 
 In this work, the genetic algorithm never calls OpenMC. It searches a
-Gaussian-process surrogate, a statistical model fitted to the designs
+Gaussian-process surrogate for a statistical model fitted to the designs
 already evaluated with OpenMC, whose predictions cost almost nothing.
 OpenMC is run only on the small number of designs that the search
 proposes. Their results join the designs already evaluated, and the
