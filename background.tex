@@ -5,7 +5,7 @@
 \label{ch:background}
 
 This chapter assembles the minimum theory the thesis rests on. The
-equations are stated with the source in which each is derived, and the
+equations are stated with the source from which each is derived, and the
 derivations are not repeated. The emphasis falls on the points where
 theory shapes decisions taken later.
 
@@ -63,8 +63,8 @@ k = \frac{\text{rate of neutron production}}
         neutrons\,s$^{-1}$.
 \end{itemize}
 
-In an infinite system no neutron escapes, and the non-leakage
-probability is one. For a thermal reactor the neutron life cycle then
+In an infinite system, no neutron escapes, and the non-leakage
+probability is one. For a thermal reactor, the neutron life cycle then
 splits the multiplication factor into four factors, known as the
 four-factor formula~\cite{duderstadt_hamilton_1976}.
 
@@ -94,7 +94,7 @@ k_\infty = \eta\, f\, p\, \varepsilon
         by thermal fission alone, dimensionless.
 \end{itemize}
 
-In a finite system some neutrons leak out while they slow down and some
+In a finite system, some neutrons leak out while they slow down and some
 after they have reached thermal energies. Each loss enters as a
 non-leakage probability, which gives the six-factor formula for the
 effective multiplication factor~\cite{duderstadt_hamilton_1976}.
@@ -128,7 +128,7 @@ transport over successive fission generations, as described in
 Section~\ref{sec:bg-mc-k}.
 
 Figure~\ref{fig:bg-k} shows this hierarchy measured on C9-47, one of the
-designs of the Campaign 9 Pareto set, at beginning of life with all rods
+designs of the Campaign 9 Pareto set, at the beginning of life with all rods
 out and the fixed soluble boron concentration of the campaign model. The
 three-dimensional value falls below unity because that concentration
 exceeds the critical one for this design, which is treated in
@@ -163,7 +163,7 @@ leakage-corrected end-of-cycle target used throughout the optimisation:
   \label{fig:bg-k}
 \end{figure}
 
-Reactivity expresses the departure from criticality in a form that adds
+Reactivity expresses the deviation from criticality in a form that adds
 linearly for small perturbations.
 
 \begin{equation}
@@ -227,7 +227,7 @@ an adaptive burnup schedule. The equations and the method of solution
 are given in Section~\ref{sec:bg-bateman}.
 
 The depletion runs at constant power, normalised to the heavy-metal
-mass loaded at beginning of life, and burnup is referred to that same
+mass loaded at the beginning of life, and burnup is referred to that same
 initial mass. The specific power $P_\mathrm{spec}$ is therefore constant
 by construction, and burnup grows linearly with irradiation time,
 $B = P_\mathrm{spec}\,t/10^{3}$ with $t$ in days~\cite{lee_2020}.
@@ -244,7 +244,7 @@ the end-of-cycle burnup through the conversion below.
 
 \begin{itemize}
   \item $\mathrm{EFPD}$ is the cycle length in effective full-power
-        days, in days.
+        days.
 
   \item $B_\mathrm{EOC}$ is the end-of-cycle burnup, in MWd/kgHM.
 
@@ -290,8 +290,8 @@ for the optimisation:
         of by reactivity. The curves are assembly-average burnup, so the
         figure marks the assembly-average limit of \SI{55}{MWd/kgHM} of
         uranium dioxide in zirconium cladding~\cite{song_sanchez_2026}.
-        The limit adopted for the accident-tolerant fuel of this work is
-        defined in Section~\ref{sec:meth-atf}.
+        It is the discharge-burnup limit adopted by this work, defined
+        in Section~\ref{sec:meth-atf}.
 \end{enumerate}
 
 \begin{figure}[htbp]
@@ -351,7 +351,7 @@ f_{j\rightarrow i}(E)\,\sigma_j(E,t)\,\phi(E,t)
   \item $n$ is the total number of nuclides, dimensionless.
 \end{itemize}
 
-By definition $f_{i\rightarrow i}$ and $\lambda_{i\rightarrow i}$ are
+By definition, $f_{i\rightarrow i}$ and $\lambda_{i\rightarrow i}$ are
 zero, so the sums run over all nuclides except $i$. The initial
 densities $N_i(0) = N_{i,0}$ close the system. Collecting the $n$
 densities into one vector gives the matrix
@@ -677,7 +677,7 @@ Section~\ref{sec:objective_functions}:
 
 Figures~\ref{fig:bg-pin-asm} and~\ref{fig:bg-pin-core} illustrate the
 radial peaking factor on C9-47, one of the designs of the Campaign 9
-Pareto set, at beginning of life. Each map shows the fission rate of every pin divided by the mean
+Pareto set, at the beginning of life. Each map shows the fission rate of every pin divided by the mean
 over the fuelled pins, so $F_{\Delta H}$ is the largest value of the
 map.
 
@@ -719,7 +719,7 @@ Two properties of the figure of merit matter for the chapters that
 follow:
 
 \begin{enumerate}
-  \item It is evaluated at beginning of life on fresh fuel, where
+  \item It is evaluated at the beginning of life on fresh fuel, where
         enrichment zoning and absorber effects on the power
         distribution are strongest.
 
@@ -899,7 +899,7 @@ The entropy is recorded for every evaluation from Campaign~3 onward as a
 source-convergence diagnostic. The diagnostic does not stop or repeat an
 evaluation inside the loop. The core solves are instead given 60 to 120
 inactive batches, and the designs whose source had not converged when
-the active batches began are identified afterwards
+the active batches began are identified a posteriori
 (Sections~\ref{sec:res-corevalidation}, \ref{sec:res-c7-limits}
 and~\ref{sec:res-c8-limits}).
 
@@ -963,7 +963,7 @@ simulates, and OpenMC offers three estimators for it~\cite{openmc_docs}:
 
 The collision estimator scores more events than the analog estimator,
 each with a smaller contribution~\cite{openmc_docs}. At every collision
-inside the region it scores the ratio of the reaction cross section to
+inside the region, it scores the ratio of the reaction cross section to
 the total cross section at the collision point~\cite{lux_koblinger_1991}.
 
 \begin{equation}
@@ -1121,7 +1121,7 @@ illustrated in Figure~\ref{fig:bg-mc}:
 \end{enumerate}
 
 The law holds for the maximum only once a single pin dominates it. At
-low fidelity several pins compete for the maximum, and the estimate
+low fidelity, several pins compete for the maximum, and the estimate
 inherits the narrower spread of the largest of several noisy values.
 The seed replication of three Campaign~2 designs at \num{4000} particles
 and 60 batches, five seeds each, gives a pooled standard deviation of
@@ -1159,9 +1159,8 @@ practical consequences:
 \end{enumerate}
 
 This mechanism is quantified on the real campaign in
-Section~\ref{sec:res-c1c2}. It is the origin of the ranking inversion
-that motivates the two-stage selection methodology of
-Section~\ref{sec:meth-stats}.
+Section~\ref{sec:res-c1c2}, where the re-solution of the finalists at
+high fidelity did not preserve their ranking.
 
 \begin{figure}[htbp]
   \centering
@@ -1240,9 +1239,9 @@ A population-based search carries many candidate designs at once and
 improves them collectively, without following a single trajectory. The
 search used here, NSGA-II, is of that kind.
 
-In Campaigns 1 to 5 NSGA-II evolved a population of 60 designs over 80
+In Campaigns 1 to 5, NSGA-II evolved a population of 60 designs over 80
 generations, which is 4800 objective evaluations for one search. From
-Campaign 6 the population is 300 designs over 400 generations, or
+Campaign 6, the population is 300 designs over 400 generations, or
 \num{120000} evaluations. One such search is performed at every
 iteration of the loop.
 
@@ -1299,7 +1298,7 @@ them in order of dependence:
 \end{enumerate}
 
 The four components share the concept of Pareto dominance, which is
-defined first. With two competing objectives no single optimum exists, and the outcome of the
+defined first. With two competing objectives, no single optimum exists, and the outcome of the
 optimisation is a set of mutually incomparable designs.
 
 Design $a$ \emph{dominates} design $b$ if it is at least as good as $b$
@@ -1314,7 +1313,7 @@ reference point lies at the worst value of both objectives. Campaign~9
 replaces the cycle length by the critical boron concentration
 $c_\mathrm{max}$, and the cycle length becomes a constraint
 (Section~\ref{sec:meth-c9}). Both objectives are then minimised, so
-its front is a lower-left staircase and the reference point moves to
+its front is a lower-left staircase, and the reference point moves to
 the upper right.
 
 \begin{figure}[!tbp]
@@ -1352,7 +1351,7 @@ scalar~\cite{coello_2007}.
 \begin{itemize}
   \item $\mathrm{HV}(\mathcal{P})$ is the hypervolume of the front
         $\mathcal{P}$, in the product of the objective units, for
-        example EFPD times the dimensionless peaking factor in
+        example, EFPD times the dimensionless peaking factor in
         Campaigns 1 to 8 and the critical boron concentration, in ppm,
         times the peaking factor in Campaign~9.
 
@@ -1412,7 +1411,7 @@ Two properties make the indicator the right convergence diagnostic:
 
 Figure~\ref{fig:bg-hv-gain} shows the only two mechanisms by which the
 indicator can grow. Of the two designs added at iteration $k+1$, one
-pushes the front outward and the other fills a gap.
+pushes the front outward, and the other fills a gap.
 
 \begin{figure}[htbp]
   \centering
@@ -1429,7 +1428,7 @@ The dependence is shown below on one unchanged front measured from three
 reference points. The front is the illustrative five-member front of
 Figure~\ref{fig:bg-hv-construction}, not the front of any campaign, so
 the values below do not appear in Chapter~\ref{ch:results}. The first
-reference point is the one drawn in that figure. The other two are
+reference point is the one plotted in that figure. The other two are
 alternatives that could
 equally have been chosen, and are not shown:
 
@@ -1451,7 +1450,7 @@ a half.
 
 The choice of units has the same effect. The hypervolume of a
 two-objective problem has the units of the product of its objectives,
-for example effective full-power days multiplied by a dimensionless
+for example, effective full-power days multiplied by a dimensionless
 factor. Reporting cycle length in years instead of days divides every
 value by 365.25 without changing a single design, so an isolated
 hypervolume states nothing about the quality of a front.
@@ -1481,9 +1480,9 @@ this work:
         revised, so every value in the history is comparable to every
         other.
 
-  \item Across campaigns the values are not comparable whenever the
+  \item Across campaigns, the values are not comparable whenever the
         reference point or the definition of an objective has changed,
-        and no such comparison is drawn in Chapter~\ref{ch:results}.
+        and no such comparison is made in Chapter~\ref{ch:results}.
 \end{enumerate}
 
 \subsection{The NSGA-II search}
@@ -1513,7 +1512,7 @@ A genetic algorithm iterates four operations:
   \item \emph{Mutation.} Small random perturbations keep the population
         from collapsing prematurely.
 
-  \item \emph{Replacement.} The next generation is formed and the cycle
+  \item \emph{Replacement.} The next generation is formed, and the cycle
         repeats.
 \end{enumerate}
 
@@ -1553,7 +1552,7 @@ design $X$ splits the objective plane into four quadrants:
 \end{enumerate}
 
 Incomparability states that, between a longer cycle and a flatter power
-distribution, no preference has been imposed yet. Near a Pareto front
+distribution, no preference has been imposed yet. Near a Pareto front,
 almost every pair of designs is incomparable, which is exactly why a
 second ranking is needed.
 
@@ -1653,7 +1652,7 @@ Selection then follows one rule with one tie-breaker:
 
 \subsubsection*{Constrained domination}
 
-A constrained problem adds a difficulty. Most designs the search
+A constrained problem adds difficulty. Most designs the search
 generates violate at least one constraint, and simply discarding them
 would leave selection with nothing to act on.
 
@@ -1682,7 +1681,7 @@ V(\mathbf{x}) = \sum_{j=1}^{n_g} \max\bigl( 0,\, g_j(\mathbf{x}) \bigr)
 
   \item $n_g$ is the number of active inequality constraints of the
         campaign, dimensionless. It changes between campaigns, as stated
-        with Equation~\eqref{eq:constraint_form}.
+        in Equation~\eqref{eq:constraint_form}.
 
   \item $\max(0, \cdot)$ keeps only the violated part, so satisfied
         constraints contribute nothing and cannot compensate for
@@ -1806,11 +1805,11 @@ therefore costs seconds, instead of the thousands of transport
 evaluations it replaces.
 
 Constrained domination also kept the search alive at the Campaign-4
-design of experiments, where all 36 designs were infeasible and
+design of experiments, where all 36 designs were infeasible, and
 selection was governed entirely by rule 2. The final population is then
 ranked by total violation, and its least-infeasible members are handed
 to the infill step. This is the constraint-violation-driven mode of
-Section~\ref{sec:res-c4}, drawn in Figure~\ref{fig:bg-nsga2-thesis}(b).
+Section~\ref{sec:res-c4}, illustrated in Figure~\ref{fig:bg-nsga2-thesis}(b).
 
 In that figure, the design with $V = 0.05$ lies below the dashed
 boundary on $F_{\Delta H}$ and would look feasible if only its position
@@ -1818,8 +1817,8 @@ in the objective plane were inspected. It is infeasible nonetheless,
 because it violates a constraint on a quantity that is not an
 objective. Most constraints of Table~\ref{tab:constraints} act on such
 quantities, among them the beginning-of-life multiplication factor and
-the enrichment cap. The feasibility of a design, and its total violation
-$V$, therefore cannot be inferred from its position in the objective
+the enrichment limit. The feasibility of a design, and its total violation
+$V$, therefore, cannot be inferred from its position in the objective
 plane, and $V$ is computed from every constraint of the table.
 
 \FloatBarrier
@@ -1830,7 +1829,7 @@ plane, and $V$ is computed from every constraint of the table.
 
 A surrogate is a statistical stand-in for the expensive code, trained
 on the designs evaluated so far and consulted everywhere
-else~\cite{forrester_book_2008}. The search of the previous subsection
+else~\cite{forrester_book_2008}. The search in the previous subsection
 needs thousands of evaluations per iteration, and the surrogate is what
 makes them affordable.
 
@@ -2063,7 +2062,7 @@ The guarantee is one-dimensional coverage: no variable is left with an
 unexplored stretch. Uniform random sampling cannot promise that at
 equal budget.
 
-From there the campaign follows the dual-stage loop of
+From there, the campaign follows the dual-stage loop of
 Figure~\ref{fig:bg-al}, whose steps repeat until the stopping rule is
 met:
 
@@ -2100,7 +2099,7 @@ met:
                 marks a design whose predicted objectives rest on few
                 nearby evaluations.
 
-          \item Screen the candidates on the constraint surrogates.
+          \item Score the candidates on the constraint surrogates.
                 Candidates whose predicted constraints stay satisfied
                 after a margin of $\kappa$ standard deviations rank first,
                 by descending score. The others follow, from the least to
@@ -2111,7 +2110,7 @@ met:
                 design of the archive and from the designs already
                 accepted, which also excludes designs already evaluated.
                 The walk stops when the batch is full. If the ranking runs
-                out first, the minimum distance is halved and the walk is
+                out first, the minimum distance is halved, and the walk is
                 repeated.
         \end{enumerate}
 
@@ -2157,7 +2156,7 @@ met:
   \item Between blocks of iterations, apply the stopping rule of
         Section~\ref{sec:meth-loop}. At convergence, pass the finalists
         to the high-fidelity confirmation of
-        Section~\ref{sec:meth-stats}.
+        Section~\ref{sec:meth-fidelity}.
 \end{enumerate}
 
 The separation between a cheap search stage and an expensive

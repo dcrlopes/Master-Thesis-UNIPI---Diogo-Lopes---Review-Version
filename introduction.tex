@@ -12,37 +12,37 @@ since the 1950s, and some 700 reactors have been used at sea since
 then~\cite{wna_ships}, so their design base is long. Naval nuclear
 propulsion nonetheless remains a demanding capability to acquire, and
 only six countries operate nuclear-powered submarines~\cite{wna_ships}.
-Table~\ref{tab:intro-submarines} gives the size of each national fleet at
-the end of 2019, about 150 submarines in total~\cite{wna_ships}.
+Table~\ref{tab:intro-submarines} gives the size of each national fleet, 
+about 150 submarines in total at the end of 2019, together with the nuclear-powered surface ships in service~\cite{wna_ships}.
 
 \begin{table}[!htbp]
   \centering
-  \caption{Nuclear-powered submarines in service by country, end of 2019.}
+  \caption{Nuclear-powered vessels in service by country.}
   \label{tab:intro-submarines}
   \small
-  \begin{tabular}{@{}lr@{}}
+  \begin{tabular}{@{}lrl@{}}
     \toprule
-    Country & Submarines \\
+    Country & Submarines & Surface ships \\
     \midrule
-    United States  & 70 \\
-    Russia         & 40 \\
-    China          & 19 \\
-    United Kingdom & 10 \\
-    France         & 9  \\
-    India          & 3  \\
+    United States  & 70 & 11 Aircraft Carriers \\
+    Russia         & 40 & 6 Icebreakers \\
+    China          & 19 & --- \\
+    United Kingdom & 10 & --- \\
+    France         & 9  & 1 Aircraft Carrier \\
+    India          & 3  & --- \\
     \bottomrule
   \end{tabular}
-
   \vspace{2pt}
-  {\footnotesize Data from~\cite{wna_ships}.}
+  
+  {\footnotesize Data from~\cite{wna_ships}. Submarines at the end of 2019,
+  carriers in 2017, icebreakers in 2022.}
 \end{table}
 \FloatBarrier
 
 Before a naval reactor goes to sea, it is common practice to prove it in
 a prototype. Work on nuclear marine propulsion began in the 1940s, and
 the first test reactor built for it started up in the United States in
-1953. India operated a 20~MW prototype unit from 2003 for its
-submarine programme~\cite{wna_ships}. The United States programme
+1953~\cite{wna_ships}. The United States programme
 still requires a new fuel to run in a prototype reactor before it is
 deployed in the fleet~\cite{jason_2016}. Chapter~\ref{ch:litreview}
 documents the naval lineages in more detail, and the Brazilian programme
@@ -82,9 +82,8 @@ about the reactor:
         19\,wt\%~\cite{vasconcelos_fapesp_2025}.
 
   \item \textbf{The vessel envelope:} A structural dissertation on the
-        submarine reactor, proposed by CTMSP under a research agreement
-        with the University of São Paulo, gives the vessel dimensions
-        adopted according to CTMSP. The cylindrical inner radius is
+        submarine reactor gives the vessel dimensions
+        adopted according to Centro Tecnológico da Marinha em São Paulo (CTMSP). The cylindrical inner radius is
         900\,mm~\cite{maruyama_2013}.
 \end{enumerate}
 
@@ -117,7 +116,7 @@ of correspondence to the prototype itself. The thesis also tests how
 far open-source tools and open data can carry a realistic naval core
 design study.
 
-The absence of a public specification also decides the form of the
+The absence of a public specification also drives the form of the
 study. With four inputs fixed and everything else open, the useful
 question is which core configurations satisfy the known requirements.
 The study is therefore an optimisation over a declared design space,
@@ -130,7 +129,7 @@ A long refuelling interval and a flat power distribution pull a PWR
 core design in opposite directions, for the following reasons:
 
 \begin{enumerate}
-  \item A multi-year cycle under the LEU ceiling needs high enrichment,
+  \item A multi-year cycle under the LEU limit needs high enrichment,
         and therefore a high beginning-of-life (BOL) reactivity.
 
   \item That reactivity must be held down by burnable absorbers, by
@@ -190,8 +189,8 @@ The first objective is to build a surrogate-assisted framework that can
 optimise a nuclear core. The framework has three parts:
 
 \begin{itemize}
-  \item A parametric OpenMC model of the core, built at pin, assembly
-        and 32-assembly fidelity, which evaluates the designs.
+  \item A parametric OpenMC model of the core, made by 32 assembly at 
+        pin-level fidelity, used to evaluate the designs.
 
   \item A Gaussian-process surrogate~\cite{rasmussen_gp_2006}, which
         learns from the OpenMC evaluations.
@@ -201,9 +200,9 @@ optimise a nuclear core. The framework has three parts:
 \end{itemize}
 
 The three parts are joined in an active-learning loop. At each
-iteration, NSGA-II searches the Gaussian-process surrogate, and from the
-candidate designs it returns a small batch, six designs in this work,
-is selected where the surrogate is most uncertain and run in OpenMC
+iteration, NSGA-II samples the Gaussian-process surrogate, and from the
+candidate designs, it selects a small batch, six configurations in this work, 
+where the surrogate is most uncertain and runs them in OpenMC
 (Section~\ref{sec:bg-al}). A search that would need thousands of
 evaluations therefore costs only the OpenMC runs of the selected
 designs, at about twenty minutes each.
@@ -222,11 +221,11 @@ three ways:
 \end{enumerate}
 
 The second objective is to obtain, from the little open data available,
-a set of candidate core configurations for LABGENE, from which a final
-design can be chosen once their confirmation is complete. The optimisation maximises the
-cycle length, in effective full-power days (EFPD), and minimises the
-radial peaking factor. Its constraints are motivated by licensing
-practice:
+a set of candidate core configurations for LABGENE, from which the final
+design can be selected from the Pareto front.
+The optimisation maximises the cycle length, in effective full-power days 
+(EFPD), and minimises the radial peaking factor. Its constraints are 
+motivated by licensing practice:
 
 \begin{itemize}
   \item The core must fit inside the vessel.
@@ -235,7 +234,7 @@ practice:
         reactivity worth available from the burnable absorber and the
         control rods.
 
-  \item Its enrichment must stay below the LEU ceiling.
+  \item Its enrichment must stay below the LEU limit.
 \end{itemize}
 
 The cycle length measures how long the core sustains full power before
@@ -294,7 +293,7 @@ The two final campaigns gave the following results:
         three-dimensional model with all rods out, C9-47, C9-34 and
         C9-40 stay on the front. C9-44 leaves it, and C9-35 drops out on
         a peaking tie that lies within the statistical uncertainty. 
-        Every front member clears the boron ceiling of its own
+        Every front member clears the soluble boron limit of its own
         lattice and is held subcritical by the first two regulating
         banks on the three-dimensional model. A few smaller checks were
         still open when this thesis was written.
@@ -325,7 +324,8 @@ The fronts give the following results:
         (Section~\ref{sec:res-c8-front}) fits inside the open vessel
         envelope, holds its beginning-of-life reactivity within the
         measured worth of the regulating banks, and stays below the LEU
-        ceiling.
+        limit.
+
 
   \item A second set from the same campaign is controllable with two
         banks alone, as a commercial PWR is operated
@@ -351,7 +351,7 @@ project. It rests on the following rules:
         kept apart from the results.
 
   \item The same set of design parameters defines the model at pin,
-        assembly and full-core level, so a design screened on the single
+        assembly and full-core level, so a design evaluated on the single
         assembly is exactly the design later confirmed on the core.
 
   \item The surrogate-assisted loop stops on a rule based on the
@@ -361,7 +361,7 @@ project. It rests on the following rules:
         in outcome between two campaigns is attributable to one cause.
 
   \item Constraints are measured on the model, as the controllability
-        screen is, in place of bounds derived from assumptions, and the
+        constraint is, in place of bounds derived from assumptions, and the
         critical boron concentration of every design can be measured
         inside the evaluator. The results of each campaign are compared
         with the design rules and the controllability requirements, and
@@ -432,7 +432,7 @@ They are the following:
         nucleate boiling ratio, no fuel temperature limit and no
         transient is evaluated. The moderator temperature coefficient
         is evaluated outside the optimisation loop, as a soluble boron
-        ceiling on selected designs, and is never imposed as a
+        limit on selected designs, and is never imposed as a
         constraint (Section~\ref{sec:meth-mtc}).
 
   \item The depletion runs at a constant soluble boron concentration of
@@ -442,14 +442,14 @@ They are the following:
         measures the critical concentration at beginning of life and at
         the most reactive state of the cycle.
 
-  \item The controllability screen tests whether the regulating banks
+  \item The controllability constraint tests whether the regulating banks
         hold the fresh core subcritical at power with the boron present
         and no xenon. It is a hold-down test, and the shutdown margin
         in the cold state with the highest-worth rod withdrawn is not
         demonstrated.
 
   \item The statistical error of the peaking objective was bounded but
-        not measured inside the loop. Measured afterwards on the
+        not measured inside the loop. Measured a posteriori on the
         candidates, it does not resolve the ordering of neighbouring
         front designs along that axis. The work delivers a Pareto front
         of candidates that are then evaluated at higher fidelity, so an
@@ -481,8 +481,8 @@ The thesis is organised as follows:
         optimisation problem, the leakage-corrected reactivity target,
         and the active-learning loop with its validation. It then
         covers the treatment of the discharge-burnup limit, the
-        controllability screen, the soluble boron with the moderator
-        temperature coefficient and the boron ceiling, and the campaign
+        controllability constraint, the soluble boron with the moderator
+        temperature coefficient and the boron limit, and the campaign
         structure, including the reformulated problem of Campaign 9.
 
   \item Chapter~\ref{ch:results} reports the results of the nine

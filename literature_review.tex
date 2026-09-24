@@ -16,7 +16,7 @@ deployment. Two international surveys give the size of the field:
 \begin{itemize}
   \item The International Atomic Energy Agency (IAEA) reports more than
         68 active designs in the 2024 edition of its reference booklet,
-        drawn from the 2024 update of its Advanced Reactors Information
+        taken from the 2024 update of its Advanced Reactors Information
         System, and 22 of them are water-cooled~\cite{iaea_smr_2024}.
 
   \item The Nuclear Energy Agency identified 127 SMR technologies
@@ -193,8 +193,8 @@ interest in nuclear energy, SMRs included, from financial institutions
 such as the multilateral development banks and from large technology
 companies~\cite{iaea_rds1_2025}.
 
-Deployment lags the projections. More than 80 SMR and microreactor
-the IAEA documents designs, and only two have entered commercial
+Deployment lags the projections. The IAEA documents more than 80 SMR
+and microreactor designs, and only two have entered commercial
 service~\cite{worldnuclearreport_smr}:
 
 \begin{itemize}
@@ -418,7 +418,7 @@ sources:
 
   \item In 2025, Pesquisa FAPESP reported from Aramar that the submarine
         fuel enrichment will reach 19~wt\%. It quoted the director of
-        CTMSP stating that the first fuel load had already been
+        CTMSP, stating that the first fuel load had already been
         produced~\cite{vasconcelos_fapesp_2025}.
 \end{itemize}
 
@@ -472,7 +472,7 @@ prototype. These parameters are the following:
 The enrichment range at the start of the study, 2.0 to 19.75~wt\%, was
 set from the open information and encloses the whole range reported for
 the prototype. The
-final campaign, constrained by the controllability screen of
+final campaign, constrained by the controllability constraint of
 Section~\ref{sec:meth-ctrl}, admits assembly enrichments up to
 13.9~wt\%. The 19~wt\% reported for the prototype therefore lies inside
 the explored range but outside the final candidate space.
@@ -760,7 +760,7 @@ from the 6 to 8~wt\% stated in 2014~\cite{dinizcosta_2017} to the
 19~wt\% reported in 2025~\cite{vasconcelos_fapesp_2025}, so the
 optimisation does not presuppose any of them.
 
-The controllability screen of the final campaign then bounds the
+The controllability constraint of the final campaign then bounds the
 candidate space at 13.9~wt\%, below the highest reported figure. That
 bound is itself a result on the prototype envelope.
 
@@ -1102,16 +1102,16 @@ McKay, Beckman and Conover compared three ways of choosing these
 inputs~\cite{mckay_lhs_1979}:
 
 \begin{enumerate}
-  \item Random sampling, in which the input vectors are drawn at random
+  \item Random sampling, in which the input vectors are sampled at random
         from their joint distribution.
 
   \item Stratified sampling, in which the sample space is divided into
-        disjoint strata and a random sample is drawn from each stratum,
+        disjoint strata and a random sample is taken from each stratum,
         so that every region of the space is represented.
 
   \item Latin hypercube sampling, in which the range of each variable is
         divided into $N$ intervals of equal probability, one value is
-        drawn from each interval, and the values of the different
+        sampled from each interval, and the values of the different
         variables are matched at random.
 \end{enumerate}
 
@@ -1302,7 +1302,7 @@ one acts on the pipeline of this thesis:
 
         CPU hours are summed over all the processors of a run, so the
         elapsed time is shorter on a parallel machine. The affordable
-        number of evaluations is still capped, which is the motivating
+        number of evaluations is still bounded, which is the motivating
         premise of surrogate-assisted search~\cite{jin_2011}.
 
   \item \emph{Nonconvex and multimodal landscapes.} Objectives respond
@@ -1323,7 +1323,7 @@ one acts on the pipeline of this thesis:
         ranking of nearby designs and propagates through depletion
         steps, as developed in Section~\ref{sec:lit-opt-burnup}.
 
-  \item \emph{The fidelity gap.} Cheap screening models rank designs
+  \item \emph{The fidelity gap.} Cheap low-fidelity models rank designs
         differently from high-fidelity evaluation. The canonical
         statistical fusion of two fidelities is the autoregressive model
         of~\cite{kennedy_ohagan_2000}, with engineering practice
@@ -1360,7 +1360,7 @@ The coupled transport and depletion problem has two characteristics that
 shape its cost:
 
 \begin{itemize}
-  \item It is nonlinear. The rates that drive the isotopic evolution
+  \item It is non-linear. The rates that drive the isotopic evolution
         depend on the composition through the transport solution, so
         every update of those rates requires a new transport
         solution~\cite{romano_2021_depletion}.
@@ -1492,7 +1492,7 @@ short assessments follow, one per family.
     \cite{radaideh_2021_rl,seurin_2024_pearl} \\
     \addlinespace
     Multi-fidelity frameworks &
-    Cheap screening plus selective high-fidelity confirmation &
+    Cheap low-fidelity ranking plus selective high-fidelity confirmation &
     Gains hinge on cross-fidelity correlation, rank inversion near the
     optimum &
     \cite{kennedy_ohagan_2000} \\
@@ -1728,7 +1728,7 @@ It differs from them in three ways:
         problem formulation is no longer adequate, and the next campaign
         changes that part alone. Campaign by campaign, the framework thus
         moves towards a Pareto front that is consistent with the physics
-        of the core and with the requirements drawn from the literature
+        of the core and with the requirements taken from the literature
         (Section~\ref{sec:meth-campaigns}).
 \end{enumerate}
 
