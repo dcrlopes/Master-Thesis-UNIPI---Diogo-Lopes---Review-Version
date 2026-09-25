@@ -251,7 +251,7 @@ useful here:
 \begin{itemize}
   \item The KLT-40S is deployed in the floating nuclear power plant
         (FNPP) \emph{Akademik Lomonosov}. It uses uranium dioxide
-        (UO$_2$) dispersed in a silumin matrix at 18.6~wt\% uranium-235,
+        (UO$_2$) dispersed in a silumin (aluminium-silicon alloy) matrix at 18.6~wt\% uranium-235,
         a core of 121 fuel assemblies, and a refuelling cycle of 30 to
         36 months~\cite{worldnuclearreport_smr}.
 
@@ -1019,7 +1019,7 @@ applied to it and compared~\cite{meneses_2010}:
   \item Particle swarm optimisation with random keys.
 \end{itemize}
 
-On the multi-objective side, NSGA-II~\cite{deb_nsga2_2002} and SPEA are
+On the multi-objective side, NSGA-II~\cite{deb_nsga2_2002} and the Strength Pareto Evolutionary Algorithm (SPEA) are
 the two multi-objective genetic algorithms most widely used in
 research~\cite{stewart_2021}. They rest on the broader theory of
 multi-objective evolutionary algorithms
@@ -1044,8 +1044,10 @@ time~\cite{deb_2001}:
 In his book on multi-objective optimisation with evolutionary algorithms,
 Deb (2001) classifies MOEAs by whether they preserve elitism, that is, whether
 the best solutions of a population are carried directly into the next
-generation. VEGA, MOGA, NSGA and NPGA are non-elitist algorithms, while
-NSGA-II, SPEA and PAES preserve the elite~\cite{deb_2001}.
+generation. The Vector Evaluated Genetic Algorithm (VEGA), the Multi-Objective
+Genetic Algorithm (MOGA), NSGA and the Niched Pareto Genetic Algorithm
+(NPGA) are non-elitist algorithms, while NSGA-II, SPEA and the Pareto
+Archived Evolution Strategy (PAES) preserve the elite~\cite{deb_2001}.
 
 \subsection{Surrogate-assisted optimisation and machine learning}
 \label{sec:lit-opt-surrogate}

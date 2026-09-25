@@ -2392,8 +2392,7 @@ seed-replicated study of the assembly estimator, in which the same
 designs are repeated at $4\,000$, $16\,000$, $64\,000$ and
 $256\,000$ particles with independent seeds, so that the
 seed-to-seed standard deviation measures the noise and the difference
-to the highest setting measures the bias. The study is reported in
-Section~\ref{sec:res-c1c2}, and its outcome is the
+to the highest setting measures the bias. The study is reported in Section~\ref{sec:res-c1c2}, and its outcome is the
 $16\,000\times120$ setting adopted for the high-fidelity search of
 Campaigns 3 and 5, which removes most of the bias for nine times the
 number of active histories: \num{16000} particles over 90 active
@@ -2419,6 +2418,13 @@ multiplied by the 110 active batches, $F_\infty$ is the extrapolated
 value, and $a$ is the fitted bias coefficient, all dimensionless. The
 extrapolation assumes that the bias falls as $1/\sqrt{N}$. The study
 that applies it is reported in Section~\ref{sec:res-c9-peaking}.
+
+Both studies rest on seed replicas, and the same replicas fix how two
+estimates are compared. Wherever two designs, or one design at two
+settings, are compared in Chapter~\ref{ch:results}, the comparison is
+the two-sample statistic of Section~\ref{sec:bg-mc}, $t$, computed from
+the seed-replicated means and their standard errors, with
+$|t| \approx 2$ as the separation threshold.
 
 \subsection{Transport settings per campaign}
 \label{sec:meth-fid-settings}

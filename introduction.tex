@@ -189,7 +189,7 @@ The first objective is to build a surrogate-assisted framework that can
 optimise a nuclear core. The framework has three parts:
 
 \begin{itemize}
-  \item A parametric OpenMC model of the core, made by 32 assembly at 
+  \item A parametric OpenMC model of the core, made by 32 assemblies at 
         pin-level fidelity, used to evaluate the designs.
 
   \item A Gaussian-process surrogate~\cite{rasmussen_gp_2006}, which
@@ -200,12 +200,17 @@ optimise a nuclear core. The framework has three parts:
 \end{itemize}
 
 The three parts are joined in an active-learning loop. At each
-iteration, NSGA-II samples the Gaussian-process surrogate, and from the
-candidate designs, it selects a small batch, six configurations in this work, 
-where the surrogate is most uncertain and runs them in OpenMC
-(Section~\ref{sec:bg-al}). A search that would need thousands of
-evaluations therefore costs only the OpenMC runs of the selected
-designs, at about twenty minutes each.
+iteration, NSGA-II searches the Gaussian-process surrogate and returns
+the designs it predicts to be the best compromises between the two
+objectives, no single design being best in both. From that set,
+a small batch is selected, six configurations in this work, at the
+designs where the surrogate is least certain of its own prediction,
+and those six are evaluated in OpenMC (Section~\ref{sec:bg-al}). The
+search decides which designs are worth evaluating. The selection of
+the batch retains, among them, the six whose predicted objectives are
+least supported by the evaluations already performed. A search that
+would need thousands of evaluations therefore costs only the OpenMC
+runs of the selected designs, at about twenty minutes each.
 
 Before its results can be used, the framework has to be validated in
 three ways:
@@ -221,8 +226,8 @@ three ways:
 \end{enumerate}
 
 The second objective is to obtain, from the little open data available,
-a set of candidate core configurations for LABGENE, from which the final
-design can be selected from the Pareto front.
+a set of candidate core configurations for LABGENE, from which the
+final design can be selected.
 The optimisation maximises the cycle length, in effective full-power days 
 (EFPD), and minimises the radial peaking factor. Its constraints are 
 motivated by licensing practice:

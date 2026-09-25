@@ -1097,6 +1097,13 @@ the standard deviation of every tally bin, and its confidence intervals
 use the Student $t$ distribution with $B-1$ degrees of
 freedom~\cite{openmc_docs}.
 
+The same distribution governs the comparison of two independent Monte
+Carlo estimates: their difference divided by the standard error of
+that difference, written $t$ in this work, follows the Student
+distribution under the hypothesis that the two estimates share a mean,
+and a value of $|t|$ above about two rejects that hypothesis at the
+five per cent level.
+
 Every tallied quantity is a statistical estimate. Two properties of
 those estimates drive the methodology of this thesis, and both are
 illustrated in Figure~\ref{fig:bg-mc}:
