@@ -1,3 +1,4 @@
+% !TEX root = Thesis_template.tex
 \usetikzlibrary{arrows.meta}
 \providecommand{\openpoint}[1]{\par\noindent\fbox{\parbox{0.97\linewidth}{%
   \textbf{Open point:} #1}}\par}
@@ -69,7 +70,7 @@ for the design basis.
         Chapter~\ref{ch:results}.
 \end{enumerate}
 
-To meet the mission objective, namely a long refuelling interval under
+To achieve the mission objective, namely a long refuelling interval under
 low-enriched uranium (LEU), the first criterion is relaxed on one
 point. The enrichment is bounded by the LEU enrichment limit of \SI{19.75}{wt\%} of
 Equation~\eqref{eq:leu-box} rather than by the 2 to \SI{5}{wt\%} of
@@ -111,7 +112,7 @@ Two terms recur throughout this chapter. The evaluator is the code
 that builds the OpenMC models of one candidate design, runs its
 transport and depletion calculations and returns its objectives and
 constraints. The archive is the database in which every evaluated
-design is stored with its inputs and its results, and it is the record
+design is stored with its inputs and its results, and it is the data set
 from which Chapter~\ref{ch:results} is computed.
 
 The model is built in OpenMC~0.15.3~\cite{romano_openmc_2015} with
@@ -352,7 +353,7 @@ depletion of that campaign still runs at the fixed \SI{1000}{ppm}.
 The specification is static, at Beginning of Life (BOL), and does not
 specify a depletion history. The extension of those
 conditions to a depleted core is an assumption of the present work and
-is treated as such in Section~\ref{sec:meth-boron-limits}.
+is discussed as such in Section~\ref{sec:meth-boron-limits}.
 
 \subsection{Basis for the choice}
 \label{sec:meth-boron-basis}
@@ -411,16 +412,16 @@ development. Four considerations support retaining it here.
 
           \item \textbf{A design configuration would need its own
                 study:} fixing the banks would require a layout that
-                meets the reactivity requirement at every state of the
+                satisfies the reactivity requirement at every state of the
                 cycle and is mechanically achievable within the vessel
                 head and the guide-tube pattern, together with a Cold
                 Shutdown Margin (CSDM) demonstration under the
-                single-failure assumption. That demonstration is outside
-                the constraint set of every campaign.
+                single-failure assumption. That demonstration is not
+                among the active constraints of any campaign.
         \end{enumerate}
 
         An SBF core adopted without that study would claim more than
-        the present constraint set supports, so soluble boron is
+        the present constraints support, so soluble boron is
         carried in every campaign of this work.
   \item \textbf{Known sign of the bias on the objective:} soluble
         boron absorbs part of the excess reactivity of the core, so a
@@ -557,8 +558,8 @@ g_j(\mathbf{x}) \le 0,
         dimensionless: four in Campaign 1, five in Campaigns 2 to 6,
         six in Campaigns 7 and 8 and eight in Campaign 9
         (Table~\ref{tab:constraints}). The two-bank reading
-        $g_\mathrm{ctrl,12}$ and the boron record $g_\mathrm{boron}$ of
-        Campaign 9 are recorded and not constrained.
+        $g_\mathrm{ctrl,12}$ and the boron reading $g_\mathrm{boron}$ of
+        Campaign 9 are computed and stored, not constrained.
 \end{itemize}
 
 The transport model on which $F_{\Delta H}$ is evaluated changes between
@@ -591,7 +592,7 @@ Three campaigns then change the bounds.
         the zoned low-enriched-uranium limit of
         Section~\ref{sec:meth-zoning}.
 
-  \item Campaign 7 narrows the enrichment box to
+  \item Campaign 7 narrows the enrichment range to
         $12/1.150 = \SI{10.43}{wt\%}$ by Equation~\eqref{eq:leu-box},
         from the limit on the peripheral ring lowered to
         \SI{12}{wt\%}, and sets a lower bound of \SI{3.0}{wt\%} as a
@@ -608,18 +609,23 @@ Table~\ref{tab:c89-spec}.
   \small
   \caption{Design variables and bounds, Campaigns 1 to 7.}
   \label{tab:design-space}\label{tab:design-space-c56}\label{tab:design-space-c78}
-  \begin{tabular}{@{}llcccc@{}}
+  \begin{tabular}{@{}llccccc@{}}
     \toprule
-    Variable & Unit & C1--C4 & C5 & C6 & C7 \\
+    Variable & Unit & C1 & C2--C4 & C5 & C6 & C7 \\
     \midrule
-    $e_\mathrm{in}$, $e_\mathrm{out}$ & wt\% $^{235}$U & 2.0--19.75 & 2.0--19.75 & 2.0--17.174 & 3.0--10.43 \\
-    $w_\mathrm{Gd}$ & wt\% & 0--8.0 & 0--8.0 & 0--8.0 & 0--8.0 \\
-    $p$ & cm & 1.15--1.43 & 1.15--1.43 & 1.15--1.43 & 1.15--1.43 \\
-    $t_\mathrm{refl}$ & cm & 2.0--19.5 & 2.0--19.5 & 2.0--19.5 & 2.0--19.5 \\
-    $n_\mathrm{Gd}$ & rods & 12, fixed & 12--40 & 12--40 & 12--40 \\
+    $e_\mathrm{in}$, $e_\mathrm{out}$ & wt\% $^{235}$U & 2.0--19.75 & 2.0--19.75 & 2.0--19.75 & 2.0--17.174 & 3.0--10.43 \\
+    $w_\mathrm{Gd}$ & wt\% & 0--8.0 & 0--8.0 & 0--8.0 & 0--8.0 & 0--8.0 \\
+    $p$ & cm & 1.15--1.45 & 1.15--1.43 & 1.15--1.43 & 1.15--1.43 & 1.15--1.43 \\
+    $t_\mathrm{refl}$ & cm & 2.0--25.0 & 2.0--19.5 & 2.0--19.5 & 2.0--19.5 & 2.0--19.5 \\
+    $n_\mathrm{Gd}$ & rods & 12, fixed & 12, fixed & 12--40 & 12--40 & 12--40 \\
     \bottomrule
   \end{tabular}
 \end{table}
+
+The Campaign 1 bounds constrain each geometric variable on its own and
+leave the two uncoupled. From Campaign 2 the design space is the
+buildable region and the diagonal inside it is enforced by
+$g_\mathrm{geom}$, for the reason Section~\ref{sec:res-c1} reports.
 
 Figure~\ref{fig:gd-ladder} illustrates the six nested patterns of
 Table~\ref{tab:design-space}, each panel showing the pins inherited
@@ -636,14 +642,14 @@ The rod count is a discrete variable, and it reaches the model in three
 steps:
 
 \begin{enumerate}
-  \item NSGA-II treats the pin count as a continuous variable inside
+  \item NSGA-II represents the pin count as a continuous variable inside
         the bounds, so it proposes values such as 13.845.
 
   \item The evaluator snaps that value to the nearest admissible
         rod count, one of 12, 16, 20, 24, 32 and 40, before the model
         is built, and an exact midpoint is assigned to the lower count.
 
-  \item The archive records both numbers, the value the optimiser
+  \item The archive stores both numbers, the value the optimiser
         proposed and the value that was built.
 \end{enumerate}
 
@@ -714,7 +720,7 @@ specification~\cite{nuscale_htp2_2017,epr_fsar_ch4}, under four rules.
     $g_\mathrm{ctrl,12}$ 
         & $k_\mathrm{RE12} - 0.99$
         & core, first two banks in, from C8, 
-          \emph{recorded, not constrained} \\
+          \emph{computed and stored, not constrained} \\
     \bottomrule
 \end{tabularx}
 \end{table}
@@ -878,7 +884,7 @@ criticality. Campaign 6 shows that happening repeatedly
 In Campaigns 1 to 6, the upper bound of the reactivity window is an
 adopted value of 1.35 and not a controllability criterion.
 The transport model of those campaigns carries no control rods, no
-rodded state is solved, and no bank worth enters the constraint set. The
+rodded state is solved, and no bank worth appears among the active constraints. The
 value bounds the excess reactivity the search may accumulate while the
 objective is the cycle length, which is what the exploratory phase
 needs.
@@ -886,8 +892,8 @@ needs.
 Controllability is assessed for the first time in the post-analysis of
 the Campaign 6 archive, on the first front of this work whose designs
 are worth examining as candidates. That assessment produced the
-seven-bank scheme of Figure~\ref{fig:cr-banks} and the constraint below,
-which enter the constraint set in Campaign 7 under the one-change rule
+five-bank scheme of Figure~\ref{fig:cr-banks} and the constraint below,
+which enter the active constraints in Campaign 7 under the one-change rule
 of Section~\ref{sec:meth-campaigns}.
 
 The constraint replaces the adopted value with a measurement. Every
@@ -902,25 +908,25 @@ every evaluation of Campaigns 8 and 9 three times:
         $k_\mathrm{RE}$, the eigenvalue the constraint acts on.
 
   \item From Campaign 8, with the first two regulating banks inserted,
-        which gives $k_\mathrm{RE12}$. That reading is recorded and not
+        which gives $k_\mathrm{RE12}$. That reading is computed and stored, not
         constrained, and it divides the front as described below.
 \end{enumerate}
 
 Every assembly of the core carries a control rod assembly, so the
 state with all 32 inserted bounds what the control system can hold. The
 constraint is conservative with respect to that bound, because it inserts
-only the four regulating banks and leaves the shutdown banks
+only the four regulating banks and leaves the shutdown bank
 withdrawn.
 
-The banks are those of the seven-bank scheme illustrated in
+The banks are those of the five-bank scheme illustrated in
 Figure~\ref{fig:cr-banks}. The scheme was not applied in Campaign 6. It
 was defined in the post-analysis of the Campaign 6 archive and entered
-the constraint set from Campaign 7, so it governs Campaigns 7, 8 and 9
+the active constraints from Campaign 7, so it governs Campaigns 7, 8 and 9
 only. The regulating banks RE1 to RE4
 occupy the sixteen central assemblies and carry B$_4$C absorbers. The
-shutdown banks occupy the outer sixteen assemblies and stay withdrawn
-throughout, because they are reserved for the scram function and a
-design that needs them at power is not controllable in normal
+shutdown bank occupies the outer sixteen assemblies and stays withdrawn
+throughout, because it is reserved for the scram function and a
+design that needs it at power is not controllable in normal
 operation.
 
 \begin{figure}[htbp]
@@ -939,9 +945,9 @@ k_\mathrm{RE}(\mathbf{x}) = k_\mathrm{eff}^\mathrm{core}\big(\mathbf{x},\ \mathr
 
 \begin{itemize}
   \item $k_\mathrm{RE}$ is the core effective multiplication factor at
-        beginning of life with the sixteen regulating-bank assemblies
-        inserted and the sixteen shutdown-bank assemblies withdrawn,
-        dimensionless.
+        beginning of life with the four regulating banks inserted,
+        sixteen control rod assemblies, and the shutdown bank
+        withdrawn, dimensionless.
 
   \item $\mathbf{x}$ is the design vector.
 \end{itemize}
@@ -963,27 +969,35 @@ g_\mathrm{ctrl}(\mathbf{x}) = k_\mathrm{RE}(\mathbf{x}) - (1 - \Delta\rho_\mathr
         units of $k$, that is \SI{1000}{pcm}.
 \end{itemize}
 
-The worth of the regulating banks is read from the same pair of solves.
+The worth of the regulating banks is read from the same pair of solves,
+as the difference of the reactivities of the unrodded and the rodded
+core.
 
 \begin{equation}
-\rho_\mathrm{bank}(\mathbf{x}) = k_\mathrm{eff}^\mathrm{core}(\mathbf{x}) - k_\mathrm{RE}(\mathbf{x})
+\rho_\mathrm{bank}(\mathbf{x}) = \frac{1}{k_\mathrm{RE}(\mathbf{x})} - \frac{1}{k_\mathrm{eff}^\mathrm{core}(\mathbf{x})}
 \label{eq:bank-worth}
 \end{equation}
 
 \noindent where the symbols have the following meaning.
 
 \begin{itemize}
-  \item $\rho_\mathrm{bank}$ is the worth of the sixteen regulating-bank
-        assemblies, in units of $k$, reported in pcm after
+  \item $\rho_\mathrm{bank}$ is the reactivity worth of the four
+        regulating banks, dimensionless, reported in pcm after
         multiplication by $10^5$.
 
   \item $k_\mathrm{eff}^\mathrm{core}$ is the unrodded core effective
         multiplication factor at beginning of life, dimensionless.
 \end{itemize}
 
-The margin is a modelling choice. An insertion of the regulating banks
-alone with a \SI{1000}{pcm} margin is not a licensing shutdown
-margin. The constraint
+The margin of \SI{1000}{pcm} is an assumption of this work. Its value
+is within the standard range of shutdown-margin requirements, at least
+\SI{1000}{pcm} under the KTA safety criteria
+\cite{alzaben_boronfree_2019,song_sanchez_2026} and at least
+\SI{1.0}{\%}~$\Delta k/k$ for the MRX design \cite{kusunoki_mrx_2000},
+but those requirements apply to the cold zero-power state with every
+rod inserted except the one of highest worth. Here the margin is applied
+at hot conditions with the regulating banks alone, so it is not a
+licensing shutdown margin. The constraint
 therefore tests whether the regulating system can hold the fresh core
 subcritical at power conditions, which is the question the reactivity
 bound was standing in for.
@@ -991,7 +1005,7 @@ bound was standing in for.
 Two further rodded states appear in this work, and neither is
 constrained. The state $k_\mathrm{RE12}$ inserts only the eight
 assemblies of banks RE1 and RE2, the four central assemblies and the
-four diagonal assemblies of the middle ring. It is recorded from
+four diagonal assemblies of the middle ring. It is computed and stored from
 Campaign 8 as $g_\mathrm{ctrl,12}$, so that the post-analysis can
 divide the front into designs controllable with two banks and designs
 that need all four. The margins $M_{16}$ and $M_{8}$ of
@@ -1002,10 +1016,15 @@ sixteen shutdown-bank assemblies that this work keeps
 withdrawn.
 
 The upper reactivity bound of $g_{k\max}$ can now be derived from the
-measured bank worth rather than adopted.
+measured bank worth rather than adopted. A design is controllable by
+the regulating banks when its excess reactivity,
+$1 - 1/k_\mathrm{eff}^\mathrm{core}$, does not exceed its bank worth
+less the operating margin. Assuming for every design the smallest worth
+measured on a sample of designs turns that condition into a bound on
+the unrodded eigenvalue.
 
 \begin{equation}
-k_{\max} = (1 - \Delta\rho_\mathrm{op}) + \min_{\mathbf{x} \in \mathcal{S}} \rho_\mathrm{bank}(\mathbf{x})
+k_{\max} = \frac{1}{1 - \big(\min_{\mathbf{x} \in \mathcal{S}} \rho_\mathrm{bank}(\mathbf{x}) - \Delta\rho_\mathrm{op}\big)}
 \label{eq:k-max-derived}
 \end{equation}
 
@@ -1015,8 +1034,11 @@ k_{\max} = (1 - \Delta\rho_\mathrm{op}) + \min_{\mathbf{x} \in \mathcal{S}} \rho
   \item $k_{\max}$ is the derived bound on the unrodded core
         eigenvalue, dimensionless.
 
-  \item $\rho_\mathrm{bank}$ is the bank worth, the difference between
-        the unrodded and the rodded eigenvalues, dimensionless.
+  \item $\rho_\mathrm{bank}$ is the reactivity worth of
+        Equation~\eqref{eq:bank-worth}, dimensionless.
+
+  \item $\Delta\rho_\mathrm{op}$ is the operating margin, taken here as
+        a reactivity of \num{0.01}, that is \SI{1000}{pcm}.
 
   \item $\mathcal{S}$ is the sample of designs on which the worth was
         measured.
@@ -1036,10 +1058,10 @@ Section~\ref{sec:meth-lax}.
     Campaigns & $k_{\max}$ & Basis & Provenance \\
     \midrule
     C1 to C6 & 1.35  & assembly, then core & adopted value \\
-    retrospective & 1.368 & core, 2D & all seven banks, \SI{1000}{pcm}, eight C6 designs \\
-    C7 & 1.126 & core, 2D & four regulating banks, eight C6 designs, worths \num{12174} to \SI{12718}{pcm} \\
-    C7 measured & 1.099 to 1.217 & core, 2D & implied by each design's own worth, 60 designs \\
-    C8 and C9 & 1.166 & core, 2D from 3D & smallest 3D worth \SI{14307}{pcm}, times $L_\mathrm{ax}$ \\
+    retrospective & 1.368 & core, 2D & all 32 control rod assemblies, \SI{1000}{pcm}, eight C6 designs \\
+    C7 & 1.126 & core, 2D & four regulating banks, eight C6 designs, worths \num{12174} to \SI{14947}{pcm} (Section~\ref{sec:res-c6-kmax}) \\
+    C7 measured & 1.113 to 1.285 & core, 2D & implied by each design's own worth, 60 designs \\
+    C8 and C9 & 1.166 & core, 2D from 3D & 0.99 plus the smallest 3D eigenvalue difference, 0.14307, times $L_\mathrm{ax}$ \\
     \bottomrule
   \end{tabularx}
 \end{table}
@@ -1047,9 +1069,18 @@ Section~\ref{sec:meth-lax}.
 A bound derived this way has two weaknesses. The minimum of a small
 sample is a biased estimate of the minimum of the population, and the
 quantity it stands in for is measured on every evaluation from Campaign
-7. From Campaign 8, the measured constraint therefore decides feasibility,
-and the derived value is kept only as an outer bound
+7. From Campaign 8, the measured constraint is therefore the binding
+constraint, and the derived value is a redundant constraint
 (Section~\ref{sec:res-c7-screens}).
+
+The bound of Campaigns 8 and 9 was computed from the eigenvalue
+difference $k_\mathrm{eff}^\mathrm{core} - k_\mathrm{RE}$ in place of
+the reactivity worth. Equation~\eqref{eq:k-max-derived} applied to the
+same three-dimensional solves, where the smallest worth is
+\SI{13008}{pcm}, gives 1.169 after multiplication by $L_\mathrm{ax}$. The difference changes no feasibility verdict, because
+the one design of each campaign whose unrodded eigenvalue falls between
+1.166 and 1.169, C8-51 and C9-6, also fails the controllability
+constraint.
 
 The retrospective value of 1.368, derived from the worth of all 32
 control rod assemblies with the same margin, is two per cent above the
@@ -1133,16 +1164,24 @@ that carries none.
 That guard entered the evaluator in Campaign 6. A campaign is exposed
 to the defect only where it restarts, so Campaign 1 is unaffected, its
 fixed schedule completing in a single depletion call, and from Campaign
-6 the rates are requested at every block, and the recorded burnup agrees
-with the physical one.
+6 the rates are requested at every block, and the stored burnup label agrees
+with the physical burnup.
 
 The histories of Campaigns 3 to 5, which are the campaigns run with
 the adaptive schedule whose cycle lengths enter the results of this
 work, were corrected without repeating any depletion, and every
 affected cycle length is corrected before use.
-The correction was verified by depleting one design twice with the same
-seed, once as a single block and once in three blocks, which reproduced
-an offset of exactly one step per restart. Its size on the affected
+The correction was verified by depleting design C5-7 twice with the
+same seed over six steps of \SI{4.0}{MWd/kgHM}, once as a single block
+and once as three blocks of two steps, with the output kept as
+\texttt{chunk\_test.log} in the code repository. The two arms agree to
+56 and \SI{79}{pcm} at the two points before the first restart. After
+it, the chunked arm reproduces the single arm one step earlier, within
+\SI{132}{pcm} at a label of 16 against \SI{12}{MWd/kgHM} and within
+\SI{115}{pcm} at 24 against 16, while the point that follows each
+restart sits 1106 and \SI{2194}{pcm} above the state it repeats, the
+xenon that decays during the step in which nothing burns. The offset is
+therefore exactly one step per restart. Its size on the affected
 archives is reported in Section~\ref{sec:res-c5-c7}. The compositions
 computed at every step are physically correct. Only the burnup labels
 are wrong, because every restart advanced the label by one full step in
@@ -1167,7 +1206,7 @@ B_\mathrm{true} = B_\mathrm{label} - \sum_{j=1}^{n_\mathrm{r}} \Delta b_j
 \noindent where the symbols have the following meaning.
 
 \begin{itemize}
-  \item $B_\mathrm{label}$ is the cumulative burnup recorded by the
+  \item $B_\mathrm{label}$ is the cumulative burnup stored by the
         evaluator, in MWd/kgHM.
 
   \item $B_\mathrm{true}$ is the burnup physically reached by the fuel,
@@ -1402,8 +1441,8 @@ is unchanged. It acts on the constraint matrix only, so the objectives
 and the hypervolume history are unchanged. The archived constraint
 values are stored unscaled and normalised when the archive is loaded.
 The active scales are written into the checkpoint metadata, and a
-resumed campaign does not start if its constraint set differs from the
-stored one.
+resumed campaign does not start if its active constraints differ from
+the stored ones.
 
 Division by the limit gives every constraint the same weight per unit of
 relative exceedance. The weighting orders the infeasible designs only,
@@ -1468,7 +1507,7 @@ attributable:
         $B_\mathrm{max} = \SI{100}{MWd/kgHM}$
         (Section~\ref{sec:meth-atf}). The previous horizon stopped the
         depletion before those designs reached the target, so each was
-        recorded with the same cycle length, a lower bound on the value
+        stored with the same cycle length, a lower bound on the value
         the design would have reached, and the optimiser could not rank
         them. Such an observation is right-censored, and the term is
         used in that sense throughout this work. The horizon changes only the designs that
@@ -1551,9 +1590,9 @@ changes only the lower enrichment bound:
         already adopts. Three findings led to this decision.
 
         \begin{itemize}
-          \item Below \SI{1.224}{cm} the lattice clips the guide-tube
-                wall at the cell
-                boundary without a warning from the code. At the lower
+          \item Below \SI{1.224}{cm} the boundary of the lattice cell
+                truncates the guide-tube wall without a warning from the
+                code. At the lower
                 pitch bound of \SI{1.150}{cm} up to \SI{28}{\%} of the
                 wall is replaced by moderator
                 (Figure~\ref{fig:gt-clip}). Twenty-five of the 60
@@ -1619,7 +1658,7 @@ t_\mathrm{refl}^{\max} = R_\mathrm{v} - c_\mathrm{v} - R_\mathrm{env}(p) - \delt
 \begin{itemize}
   \item $t_\mathrm{refl}^{\max}$ is the largest reflector thickness that
         fits, \SI{5.669}{cm}, bounded in the design space at
-        \SI{5.66}{cm} so that the box edge is strictly feasible.
+        \SI{5.66}{cm} so that the edge of the design space is strictly feasible.
 
   \item $R_\mathrm{v}$ is the vessel internal radius, \SI{90}{cm}.
 
@@ -1786,9 +1825,9 @@ Two guards bound the objective where the measurement cannot reach it:
         are infeasible on $g_{k\min}$ in any case.
 
   \item \textbf{A root above the highest measured concentration is
-        extrapolated:} it is clipped at \SI{6000}{ppm}, twice that
+        extrapolated:} it is truncated at \SI{6000}{ppm}, twice that
         concentration. Boron self-shielding makes the true root higher
-        than the linear extrapolation predicts, so a clipped design
+        than the linear extrapolation predicts, so a truncated design
         keeps its place at the bottom of the archive.
 \end{itemize}
 
@@ -1977,10 +2016,10 @@ k_\mathrm{target}^\mathrm{3D}(t_\mathrm{refl}) = k_\mathrm{target}^\mathrm{2D}(t
 \end{itemize}
 
 The grid of Campaigns 2 to 7 cannot serve the fixed pitch. Its pitch
-nodes are 1.15, 1.29 and \SI{1.43}{cm}, none of them \SI{1.26}{cm}, so
-every evaluation would interpolate between two nodes and carry an
+grid points are 1.15, 1.29 and \SI{1.43}{cm}, none of them \SI{1.26}{cm}, so
+every evaluation would interpolate between two grid points and carry an
 interpolation error in a variable that no longer varies. Its seven
-reflector nodes are spread over 2.0 to \SI{19.5}{cm}, of which only two
+reflector grid points are spread over 2.0 to \SI{19.5}{cm}, of which only two
 fall inside the 2.0 to \SI{5.66}{cm} that the vessel-fit clearance
 leaves to Campaign 8, so the resolution is lost exactly where the
 search now works.
@@ -1988,8 +2027,8 @@ search now works.
 The calibration of Section~\ref{sec:meth-ktarget} was therefore
 recomputed at the fixed pitch, where it depends on the reflector
 thickness alone, with one assembly solve and seven core solves at
-reflector nodes from 2.0 to \SI{5.66}{cm}. A weighted straight line
-through those nodes replaces the raw values.
+reflector thicknesses from 2.0 to \SI{5.66}{cm}. A weighted straight line
+through those grid points replaces the raw values.
 
 \begin{equation}
 k_\mathrm{target}^\mathrm{2D}(t_\mathrm{refl}) = 1.054528 - 0.000516\, t_\mathrm{refl}
@@ -2139,7 +2178,7 @@ implementation rather than modelling choices imposed a posteriori.
         fissile inventory equals that of the zoned core.
 \end{enumerate}
 
-\subsection{The enrichment search box}
+\subsection{The enrichment search range}
 \label{sec:meth-zoning-box}
 
 Because the periphery carries the largest multiplier, the
@@ -2171,7 +2210,7 @@ e \;\le\; \frac{19.75}{m_P} \;=\; 17.174
         design variables in Campaign 6, in wt\%~$^{235}$U.
 \end{itemize}
 
-The box bound and the constraint are consistent by construction, so no
+The bound and the constraint are consistent by construction, so no
 design of experiments point can violate the limit after zoning. This
 removes the wasted samples observed under the earlier formulation, and
 it is also what bounds $m_P$ from above.
@@ -2223,7 +2262,7 @@ then adopted as the discharge limit
 $B_\mathrm{max} = \SI{100}{MWd/kgHM}$, well above the limit, so that
 designs reach the end-of-cycle target before the depletion stops. Right-censoring then becomes rare, and
 the objective surrogate is not trained on censored cycle lengths. Its prediction is
-clipped at the horizon by Equation~\eqref{eq:efpd-clip}.
+truncated at the horizon by Equation~\eqref{eq:efpd-clip}.
 
 \section{Moderator temperature coefficient and the MTC boron limit}
 \label{sec:meth-mtc}
@@ -2288,7 +2327,7 @@ at the beginning of life, the root of the measured reactivity $\rho(c)$, or
 its cycle maximum of Equation~\eqref{eq:c9-cmax} where a positive hump
 is resolved, does not exceed $c_\mathrm{MTC}$.
 
-The limit is evaluated outside the optimisation loop, recorded in the
+The limit is evaluated outside the optimisation loop, stored in the
 archive as $g_\mathrm{boron}$ and never imposed as a constraint. Each
 scan solves the zoned core at two moderator temperatures and four boron
 concentrations, with two seeds per point at $100\,000$ particles and 170
@@ -2549,6 +2588,21 @@ Figure~\ref{fig:bg-al}. One iteration has four steps.
   \item An infill batch evaluated with OpenMC.
 \end{enumerate}
 
+The design of experiments holds six to nine points per design variable,
+24 to 42 points in all, and the literature bounds that choice from both
+sides. The rule of thumb for the initial design of a Gaussian-process
+surrogate is ten points per variable~\cite{whyte_2020}. The allocation
+recommended for surrogate-based optimisation places one third of the
+evaluation budget in the sampling plan and two thirds in
+infill~\cite{forrester_book_2008}, and a benchmark of Bayesian
+optimisation finds no drawback in initial designs as small as
+$n_x + 4$ points, where $n_x$ is the number of design variables, with
+$7.5\,n_x$ as its default~\cite{leriche_picheny_2021}. This work
+sets the design of experiments as a compromise between the computation
+time it consumes, at ten to twenty-five minutes per transport
+evaluation, and the range those recommendations span, at no fewer than
+six points per variable.
+
 This section fixes what Chapter~\ref{ch:background} leaves open.
 
 \begin{enumerate}
@@ -2584,9 +2638,9 @@ implemented.
     \draw[arr] (c) -- (d);
     \draw[arr] (d) -- (e);
     \draw[arr] (e) -- (f);
-    \draw[arr] (f) -- node[above, font=\footnotesize, align=center] {rule\\met} (g);
+    \draw[arr] (f) -- node[above, font=\footnotesize, align=center] {rule\\satisfied} (g);
     \draw[arr] (f.south) -- ++(0,-0.55) -| node[pos=0.25, below, font=\footnotesize]
-      {Stopping rule not met: next iteration} (a.south);
+      {Stopping rule not satisfied: next iteration} (a.south);
   \end{tikzpicture}}
   \caption{One iteration of the surrogate-assisted loop.}
   \label{fig:meth-loop-flow}
@@ -2623,7 +2677,7 @@ used because the gains are not monotonic.
 
 The rule is necessary and not sufficient, since it can fire while the
 acquisition selects near-duplicate or infeasible designs
-(Section~\ref{sec:res-c6-margin}). Two health indicators are therefore recorded at every iteration and
+(Section~\ref{sec:res-c6-margin}). Two health indicators are therefore computed at every iteration and
 checked before the rule is accepted:
 
 \begin{itemize}
@@ -2636,7 +2690,7 @@ checked before the rule is accepted:
         front still contains new designs.
 \end{itemize}
 
-Campaigns 3 and 6 met the rule. Campaigns 8 and 9 were stopped at
+Campaigns 3 and 6 satisfied the rule. Campaigns 8 and 9 were stopped at
 their budget of 60 evaluations, one iteration short of the window, and
 their fronts are reported as the best available at that budget
 (Sections~\ref{sec:res-c8-limits} and~\ref{sec:res-c9-convergence}).
@@ -2698,10 +2752,10 @@ the archive statistically consistent.
     \toprule
     Campaign & Initial designs & Batch & Iterations & Total & End \\
     \midrule
-    C3 & 36 & 6 & 6  & 72  & stopping rule met \\
+    C3 & 36 & 6 & 6  & 72  & stopping rule satisfied \\
     C4 & 36 & 6 & 3  & 54  & -- \\
     C5 & 42 & 6 & 3  & 60  & -- \\
-    C6 & 42 & 6 & 12 & 114 & stopping rule met \\
+    C6 & 42 & 6 & 12 & 114 & stopping rule satisfied \\
     C7 & 42 & 6 & 3  & 60  & -- \\
     C8 & 36 & 6 & 4  & 60  & budget, best available \\
     C9 & 24 & 6 & 6  & 60  & budget, best available \\
@@ -2727,7 +2781,7 @@ dimensionless, and $\sigma_{im}$ is the posterior standard deviation of
 objective $m$ at candidate $i$ from Equation~\eqref{eq:gp-var}. The
 index $l$ runs over the same rank-1 candidate set as $i$, so
 $\max_l \sigma_{lm}$ is the largest posterior standard deviation of
-objective $m$ over that set and each term of the sum lies between zero
+objective $m$ over that set and each term of the sum is between zero
 and one. The normalisation is per objective, since the two are measured
 in different units and the larger of them would otherwise set the
 ranking on its own. This is a pure exploration criterion in the sense
@@ -2742,13 +2796,13 @@ Figure~\ref{fig:meth-acq-flow} shows the resulting selection.
   \item \textbf{Horizon-aware surrogate objective:} the problem is
         extrapolation beyond the depletion horizon. The OpenMC
         evaluator stops every depletion at $B_\mathrm{max}$, so a
-        design that has not reached the target is recorded with the
+        design that has not reached the target is stored with the
         cycle length it had at the horizon. That value is a lower bound
         on the cycle length the design would have reached, since its
         depletion was stopped before the target. A Gaussian process
         trained on the archive nonetheless predicts values above the
         horizon, and the search then concentrates on predictions that
-        the evaluator cannot return. The surrogate objective is clipped at the horizon
+        the evaluator cannot return. The surrogate objective is truncated at the horizon
         before it enters the search.
 
         \begin{equation}
@@ -2759,13 +2813,13 @@ Figure~\ref{fig:meth-acq-flow} shows the resulting selection.
         \label{eq:efpd-clip}
         \end{equation}
 
-        Here $\tilde{f}_1$ and $f_1$ are the clipped and the raw
+        Here $\tilde{f}_1$ and $f_1$ are the truncated and the raw
         predictions of the first objective in minimisation form, the
         negative cycle length in days, and $E_\mathrm{max}$ is the
         horizon expressed as a cycle length, \num{10016.7} days at
         $B_\mathrm{max} = \SI{100}{MWd/kgHM}$ with the specific power
         $P_\mathrm{spec}$ of Table~\ref{tab:model-operating}. On the
-        clipped plateau non-dominated sorting ranks the designs by
+        plateau at the horizon non-dominated sorting ranks the designs by
         peaking alone, which is how the constrained-domination principle
         ranks censored designs~\cite{deb_nsga2_2002}.
 
@@ -2792,7 +2846,8 @@ Figure~\ref{fig:meth-acq-flow} shows the resulting selection.
         $\mathcal{G}_\mathrm{GP}$ is the set of constraints predicted by
         a surrogate, $\mu_{ij}$ and $\sigma_{ij}$ are the posterior mean
         and standard deviation of constraint $j$, and
-        $\kappa = 1.5$ from Campaign 6. Candidates with $s_i \le 0$ are
+        $\kappa = 1.5$, the value stored for the last Campaign 6
+        session and used in Campaigns 8 and 9. Candidates with $s_i \le 0$ are
         ranked first by $a_i$, and the others follow by ascending $s_i$,
         so the batch is always filled with the least risky designs. The
         construction is the deterministic counterpart of the
@@ -2844,19 +2899,23 @@ Figure~\ref{fig:meth-acq-flow} shows the resulting selection.
         so $\delta_\mathrm{min}$ can be changed before the next batch
         and an observed collapse answered by forcing the following
         batch further apart. That possibility has existed since the
-        block of Campaign 6 that introduced the revision, and
-        Campaign 6 ran at $\delta_\mathrm{min} = 0.14$.
+        block of Campaign 6 that introduced the revision, and the last
+        Campaign 6 session, from evaluation 85, ran at
+        $\delta_\mathrm{min} = 0.14$.
 
         At that time, 0.14 was not the default of the code, which
         stood at 0.05, so the value had to be passed explicitly at
-        launch. Campaign 7 was launched without it and ran its three
+        launch. The value passed to the two earlier Campaign 6 sessions
+        with batch diversity, from evaluations 61 and 67, is not
+        stored. Campaign 7 was launched without it and ran its three
         blocks at 0.05, two of which collapsed, and that was identified
         only once the campaign had finished
         (Section~\ref{sec:res-c7-blocks}). Campaigns 8 and 9 both ran
         at $\delta_\mathrm{min} = 0.14$, passed explicitly to the
         launcher, and 0.14 is now the default of the code, so a launch
         that omits the argument reproduces the adopted policy. The
-        value of every campaign is recorded in its checkpoint.
+        checkpoint of every campaign stores the value of its last
+        session.
 
         The collapse is possible at a nominally satisfied
         $\delta_\mathrm{min}$ because the distance is a mean over all
@@ -2883,7 +2942,7 @@ consequences.
       outbox/.style={box, fill=green!10},
       arr/.style={-{Stealth[length=2.2mm]}, thick},
       node distance=0.45cm]
-    \node[box] (a) {Surrogate objective clipped at the horizon, Eq.~\eqref{eq:efpd-clip}};
+    \node[box] (a) {Surrogate objective truncated at the horizon, Eq.~\eqref{eq:efpd-clip}};
     \node[box, right=of a] (b) {NSGA-II rank-1 candidates};
     \node[box, right=of b] (c) {Margin score $s_i$, Eq.~\eqref{eq:feas-margin}};
     \node[box, right=of c] (d) {Order: $s_i \le 0$ by $a_i$, then ascending $s_i$};
@@ -3144,54 +3203,61 @@ The front is the result the campaign delivers, so it has to be shown
 that it is a converged set and not an artefact of the evaluation at
 which the campaign stopped or of the Monte Carlo noise of the transport
 solves. Two tests are applied, one against each of those two
-possibilities. The first uses the hypervolume of the non-dominated set
-as its convergence measure~\cite{coello_2007}, and the second is the
-treatment of an objective that carries a Monte Carlo uncertainty,
-applied to an optimisation driven by such
-solves~\cite{erdem_2025_mc_uncertainty}.
+possibilities.
 
-The first test follows the front through the campaign. The feasible
-non-dominated set is recomputed after every evaluation, in the order of
-execution, together with its hypervolume at the fixed reference point,
-defined once from the design of experiments of the campaign. For each
-member of the final front, the evaluation at which it joined the set is
-recorded, and so is every design that a later evaluation dominated and
-removed from the set. A front whose members all joined in the first
-blocks and were never removed is converged. A front that gains a member
-in its last block is not, and its composition depends on where the
-campaign stopped.
+\begin{enumerate}
+  \item \textbf{Membership through the campaign:} the first test
+        follows the front as the campaign builds it, with the
+        hypervolume of the non-dominated set as its convergence
+        measure~\cite{coello_2007}. The feasible non-dominated set is
+        recomputed after every evaluation, in the order of execution,
+        together with its hypervolume at the fixed reference point,
+        defined once from the design of experiments of the campaign.
+        For each member of the final front, the evaluation at which it
+        joined the set is stored, and so is every design that a later
+        evaluation dominated and removed from the set. A front whose
+        members all joined in the first blocks and were never removed
+        is converged. A front that gains a member in its last block is
+        not, and its composition depends on where the campaign stopped.
 
-This is a different question from the stopping rule of
-Section~\ref{sec:meth-loop-stop}. That rule is a decision taken during
-the campaign on one scalar, the relative gain of the hypervolume, and
-it fires when that gain stays below one per cent for three iterations.
-A design can join the front at the last evaluation while contributing
-almost nothing to the hypervolume, so the rule can be met on a front
-whose membership is still changing. The test reads the membership
-itself, after the campaign, and Campaign 8 is the case that separates
-the two.
+        This is a different question from the stopping rule of
+        Section~\ref{sec:meth-loop-stop}. That rule is a decision taken
+        during the campaign on one scalar, the relative gain of the
+        hypervolume, and it fires when that gain stays below one per
+        cent for three iterations. A design can join the front at the
+        last evaluation while contributing almost nothing to the
+        hypervolume, so the rule can be satisfied on a front whose membership
+        is still changing. The test reads the membership itself, after
+        the campaign, and Campaign 8 is the case that separates the
+        two.
 
-The second test perturbs the front. The objectives of every feasible
-design are perturbed by Gaussian noise representing the Monte Carlo
-uncertainty of the transport solves, the non-dominated set is
-recomputed, and the probability that each design belongs to it is
-estimated over many replicates. The cycle length noise of a design
-follows from the eigenvalue uncertainty through the mean reactivity
-slope of that design.
+  \item \textbf{Membership under the transport noise:} the second test
+        perturbs the front, which is the treatment of an objective
+        carrying a Monte Carlo uncertainty applied to an optimisation
+        driven by such solves~\cite{erdem_2025_mc_uncertainty}. The
+        objectives of every feasible design are perturbed by Gaussian
+        noise representing the Monte Carlo uncertainty of the transport
+        solves, the non-dominated set is recomputed, and the
+        probability that each design belongs to it is estimated over
+        many replicates. The cycle length noise of a design follows
+        from the eigenvalue uncertainty through the mean reactivity
+        slope of that design.
 
-\begin{equation}
-  \sigma_{\mathrm{cycle}} = \sqrt{2}\,\frac{\sigma_k}{\left(k_{\mathrm{BOL}} - k_{\mathrm{target}}\right)/T}
-  \label{eq:val-sigma-cycle}
-\end{equation}
+        \begin{equation}
+          \sigma_{\mathrm{cycle}} = \sqrt{2}\,\frac{\sigma_k}{\left(k_{\mathrm{BOL}} - k_{\mathrm{target}}\right)/T}
+          \label{eq:val-sigma-cycle}
+        \end{equation}
 
-\noindent where $\sigma_\mathrm{cycle}$ is the one-sigma noise on the
-cycle length in EFPD, $\sigma_k$ the one-sigma uncertainty of one
-depletion eigenvalue, $k_\mathrm{BOL}$ the beginning-of-life
-multiplication factor of the assembly, $k_\mathrm{target}$ the
-end-of-cycle target of Section~\ref{sec:meth-ktarget} and $T$ the
-archived cycle length in EFPD. The factor $\sqrt{2}$ accounts for the
-interpolation of the end-of-cycle crossing between two independently
-noisy eigenvalues.
+        \noindent where $\sigma_\mathrm{cycle}$ is the one-sigma noise
+        on the cycle length in EFPD, $\sigma_k$ the one-sigma
+        uncertainty of one depletion eigenvalue, $k_\mathrm{BOL}$ the
+        beginning-of-life multiplication factor of the assembly,
+        $k_\mathrm{target}$ the end-of-cycle target of
+        Section~\ref{sec:meth-ktarget} and $T$ the archived cycle
+        length in EFPD. The factor $\sqrt{2}$ accounts for the
+        interpolation of the end-of-cycle crossing between two
+        independently noisy eigenvalues.
+\end{enumerate}
 
 Two front members whose membership probabilities are well below one are
 not resolved by the transport statistics and are reported as
@@ -3216,7 +3282,7 @@ concerned.
         variables. The feasible non-dominated set of the grid is the
         reference front.
   \item The surrogate-assisted search with the campaign settings on the
-        same box, with a design of experiments followed by infill
+        same design space, with a design of experiments followed by infill
         iterations of the campaign batch size. Its feasible
         non-dominated set is the recovered front.
 \end{enumerate}
@@ -3230,7 +3296,7 @@ between 0 and 8\,wt\%, 35 evaluations, against a design of experiments
 of 8 designs and two infill iterations of 6, 20 evaluations. The
 results are reported in Section~\ref{sec:res-c8-valgrid}.
 
-The grid box is deliberately wider than the feasible band of the
+The grid is deliberately wider than the feasible band of the
 archive, so that the enumerated front is bounded by its own constraint
 boundaries on every side. Both objectives are normalised by their range
 over the union of the two fronts before any distance is computed, so
@@ -3273,7 +3339,7 @@ its own objective reaches over the union of the two fronts, increased
 by ten per cent of the range of that objective, so that every front
 point dominates it. The hypervolume ratio $r_\mathrm{HV}$
 can exceed one, because the search is continuous and can place designs
-between grid nodes. The inverted generational distance IGD is zero when
+between grid points. The inverted generational distance IGD is zero when
 every enumerated-front point is reproduced, and the additive epsilon
 indicator $I_{\varepsilon+}$, the smallest shift that makes the
 recovered front weakly dominate every enumerated-front point, is also
@@ -3283,7 +3349,7 @@ The generational distance in the reverse direction, the fraction of
 enumerated-front points strictly dominated or dominated within a
 tolerance by the recovered front, and the provenance of the members of
 the union of the two fronts complete the comparison. The surrogate
-fitted on the search archive is finally evaluated at every grid node,
+fitted on the search archive is finally evaluated at every grid point,
 none of which it has seen, with the metrics of
 Section~\ref{sec:validation-surrogate}.
 
@@ -3297,7 +3363,7 @@ peaking factor, are not resolved and are reported as such.
 \section{Source convergence, computing environment and reproducibility}
 \label{sec:meth-diagnostics}
 
-Three records apply to every campaign:
+Every campaign is documented in three respects:
 
 \begin{itemize}
   \item \textbf{Source convergence:} the Shannon entropy of the fission
@@ -3381,7 +3447,7 @@ Three records apply to every campaign:
 
         A campaign relaunched from scratch therefore starts from a
         different design of experiments and follows a different
-        trajectory. The record of each campaign is its archived
+        trajectory. Each campaign is documented by its archived
         checkpoint, which stores every evaluated design with its inputs,
         outputs and the fixed hypervolume reference point, and every
         result of Chapter~\ref{ch:results} is computed from it. The
