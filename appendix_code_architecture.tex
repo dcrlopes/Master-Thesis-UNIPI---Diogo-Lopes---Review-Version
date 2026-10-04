@@ -1,2 +1,381 @@
+% !TEX root = Thesis_template.tex
+%% appendix_code_architecture.tex
+%% ---------------------------------------------------------------------
+%% Appendix B: architecture of the code of Campaign 9 and of its
+%% post-analysis. Rewritten 28 September 2026; the architecture figure is
+%% drawn in TikZ here, so it needs no external tool.
+%% ---------------------------------------------------------------------
+
 \chapter{Architecture of the simulation code}\label{app:code-architecture}
 
+\providecommand{\file}[1]{\expandafter\nolinkurl\expandafter{\detokenize{#1}}}
+
+\section{Purpose and scope}\label{sec:arch-scope}
+
+This appendix documents the code that produced the results of
+Campaign 9 and of its post-analysis (Sections~\ref{sec:res-c9-formulation}
+to~\ref{sec:res-c9-cont-front}), the formulation on which
+the conclusions are based. It is written for a reader who needs to locate the
+script behind a result, or to repeat a step of the post-analysis. The
+earlier campaigns used earlier versions of the same modules, which the
+history of the repository keeps.
+
+The code is public, at
+\url{https://github.com/dcrlopes/master-thesis-unipi}. The version
+described here is version 1.0, the tag \texttt{v1.0} of the repository,
+commit \texttt{283071d} of 2 October 2026, which later work on the
+repository does not change. It contains 213 Python scripts and 33
+shell scripts, and only those that compute a result of Campaign 9 or of
+its post-analysis are described. Four groups of scripts are omitted:
+
+\begin{itemize}[nosep]
+  \item the shell scripts that launch, queue and monitor the
+        calculations,
+  \item the patch scripts, \texttt{apply\_*.py} and \texttt{fix\_*.py},
+        that modified the source between campaigns,
+  \item the figure scripts, \texttt{make\_*.py},
+        \file{c9_thesis_figures.py} and \file{c9_ceiling_two_pressures.py},
+        which only draw stored results,
+  \item the tests, the diagnostics and the scripts of Campaigns 1 to 8.
+\end{itemize}
+
+\section{Macro architecture}\label{sec:arch-macro}
+
+Figure~\ref{fig:code-architecture} shows the blocks of the code and the
+files that cross each interface:
+
+\begin{itemize}[nosep]
+  \item \textbf{Core model:} the modules that build the OpenMC
+        models, imported by every script that executes a transport
+        calculation.
+  \item \textbf{Design evaluator:} the only place where a design
+        vector becomes a transport result inside the loop.
+  \item \textbf{Optimiser:} the surrogate-assisted loop, which does
+        not call OpenMC, together with the scripts of the
+        continuation of the search.
+  \item \textbf{Post-analysis:} the scripts that re-evaluate the
+        designs of the campaign outside the loop, split into those that
+        execute OpenMC and those that only read stored results.
+\end{itemize}
+
+Purple blocks call OpenMC~\cite{romano_openmc_2015,romano_2021_depletion},
+the coral block is the optimiser, and grey blocks are data, analysis
+and outputs. An unlabelled arrow between two blocks of scripts is a
+Python import.
+
+\begin{figure}[htbp]
+  \centering
+  \definecolor{archPhysFill}{HTML}{EEEDFE}\definecolor{archPhysLine}{HTML}{534AB7}
+  \definecolor{archOptFill}{HTML}{FAECE7}\definecolor{archOptLine}{HTML}{993C1D}
+  \definecolor{archInfFill}{HTML}{F1EFE8}\definecolor{archInfLine}{HTML}{5F5E5A}
+  \begin{tikzpicture}[
+      font=\footnotesize,
+      blk/.style={draw, rounded corners=3pt, line width=0.6pt, align=left,
+                  inner sep=4pt, text width=#1, anchor=north},
+      blk/.default=3.8cm,
+      phys/.style={fill=archPhysFill, draw=archPhysLine},
+      opt/.style={fill=archOptFill, draw=archOptLine},
+      inf/.style={fill=archInfFill, draw=archInfLine},
+      lab/.style={font=\scriptsize, inner sep=1.5pt, align=center},
+      arr/.style={-{Stealth[length=5pt]}, line width=0.6pt, draw=archInfLine}]
+    % columns: left x = 1.55, middle x = 5.6, right x = 11.0
+    \node[blk=5.4cm, inf] (env) at (5.6, 0) {\textbf{Environment and nuclear data}\\
+      OpenMC 0.15.3 in \texttt{openmc-env}, ENDF/B-VII.1};
+    \node[blk, phys, below=0.75cm of env] (model) {\textbf{Core model}\\\ttfamily\scriptsize
+      reactor\_model.py\\ zoning.py\\ core\_geometry.py\\ leu\_policy.py\\ hardware3d.py};
+    \node[blk, phys, below=0.9cm of model] (eval) {\textbf{Design evaluator}\\\ttfamily\scriptsize
+      openmc\_evaluator.py\\ boron\_objective.py};
+    \node[blk=3.15cm, inf, anchor=center] (kt) at (1.45,0 |- eval.center) {\textbf{Reactivity target}\\\ttfamily\scriptsize
+      ktarget\_table\_c8.json\\ \rmfamily from Campaign 8};
+    \node[blk, opt, below=1.3cm of eval] (opt) {\textbf{Optimiser}\\\ttfamily\scriptsize
+      reactor\_optimization.py\\ run\_optimization.py\\[3pt]
+      \rmfamily\footnotesize Continuation of the search\\\ttfamily\scriptsize
+      axial\_ratio\_model.py\\ seed\_c9\_axial.py\\ seed\_c9\_floor.py};
+    \node[blk=4.1cm, phys] (ptr) at (11.0,0 |- model.north) {\textbf{Post-analysis with transport}\\\ttfamily\scriptsize
+      dep\_common.py\\ c9\_dep\_replicas.py\\ c9\_dep\_core2d.py\\ c9\_dep\_core3d.py\\
+      axial\_shape\_c9.py\\ confirm3d.py\\ ladder\_core\_c9.py\\ mtc\_scan.py\\
+      boron\_worth.py\\ c9\_eval\_predicted\_front.py};
+    \node[blk=4.1cm, inf, below=0.9cm of ptr] (pnt) {\textbf{Post-analysis without transport}\\\ttfamily\scriptsize
+      c9\_front.py\\ c9\_step0.py\\ c9\_surrogate\_cv.py\\ c9\_gp\_predicted\_fronts.py\\
+      c9\_acquisition\_replay.py\\ c9\_replay\_fidelity.py\\ c9\_reverse\_retro.py\\
+      c9\_peaking\_2d3d.py\\ c9\_axial\_checks.py\\ c9\_axial\_correction.py\\
+      c9\_axial\_rescore.py\\ mtc\_front\_table.py\\ c9\_repro\_check.py};
+    \node[blk, inf, anchor=south] (thesis) at (opt.south |- pnt.south) {\textbf{Dissertation}\\
+      figures and tables of Chapter~\ref{ch:results}};
+    % imports and data
+    \draw[arr] (env) -- node[lab, right=2pt] {cross sections, chain} (model);
+    \draw[arr] (model) -- (eval);
+    \draw[arr] (model.east) -- (model.east -| ptr.west);
+    \draw[arr] (kt) -- (eval);
+    \draw[arr, {Stealth[length=5pt]}-{Stealth[length=5pt]}] (eval) --
+      node[lab, left=2pt] {$\mathbf{x}$\\$(F_{\Delta H}, c_\mathrm{max}, \mathbf{g})$} (opt);
+    % continuation: eight-layer cycle lengths back to the optimiser
+    \coordinate (cA) at ([yshift=-2.9cm]ptr.north west);
+    \coordinate (cB) at ([yshift=-0.5cm]opt.north east);
+    \draw[arr, dashed] (cA) -- (cA -| 7.95,0) -- (7.95,0 |- cB) -- (cB);
+    \node[lab, anchor=east] at ([xshift=-0.05cm, yshift=0.95cm]cB -| 7.95,0) {eight-layer\\cycle lengths};
+    % checkpoints to both post-analysis blocks, through one bus
+    \coordinate (bA) at ([yshift=-0.9cm]opt.east);
+    \draw[arr] (bA) -- (bA -| pnt.west);
+    \draw[arr] (bA -| 8.5,0) -- node[lab, sloped, above] {checkpoints}
+      (8.5,0 |- ptr.south) -- ([yshift=0.4cm]ptr.south west);
+    % results
+    \draw[arr] (ptr) -- node[lab, right=2pt] {\texttt{runs.json}\\\texttt{summary.json}} (pnt);
+    \draw[arr] (thesis.east -| pnt.west) -- node[lab, above] {tables\\figures} (thesis.east);
+  \end{tikzpicture}
+  \caption{Code of Campaign 9 and of its post-analysis: macro architecture.}
+  \label{fig:code-architecture}
+\end{figure}
+
+Campaign 9 and its post-analysis traverse the blocks in this order:
+
+\begin{enumerate}[nosep]
+  \item The optimiser samples the design of experiments by Latin-hypercube
+        sampling~\cite{mckay_lhs_1979} and sends each design vector to
+        the evaluator.
+  \item The evaluator builds the OpenMC models, executes the assembly
+        depletion and the core solves, and returns the objectives and
+        the constraint vector.
+  \item The optimiser fits the Gaussian-process
+        surrogates~\cite{rasmussen_gp_2006}, executes
+        NSGA-II~\cite{deb_nsga2_2002} on them and selects the infill
+        batch. Steps 2 and 3 repeat for each infill iteration, and the
+        checkpoint stores every evaluation.
+  \item The post-analysis re-evaluates the designs of the checkpoint
+        outside the loop, and its eight-layer cycle lengths define the
+        constraint of the continuation of the search, which returns to
+        steps 2 and 3 with its own checkpoint.
+\end{enumerate}
+
+\section{Blocks}\label{sec:arch-blocks}
+
+\subsection{Environment and nuclear data}
+
+Every physics script is executed inside one conda environment,
+\texttt{openmc-env}, fixed by \file{environment.yml} and reproduced in a
+Docker image by the \file{Dockerfile}. The environment provides OpenMC
+0.15.3~\cite{romano_openmc_2015,romano_2021_depletion}, pymoo
+0.6.2~\cite{blank_deb_2020} and scikit-learn~\cite{pedregosa_sklearn_2011}.
+The nuclear data are the ENDF/B-VII.1 continuous-energy cross
+sections~\cite{chadwick_endf71_2011} and the depletion chain
+\file{chain_endfb71_pwr.xml}, downloaded once per machine by
+\file{setup_data.sh}. Every script finds them through the environment
+variables \texttt{OPENMC\_CROSS\_SECTIONS} and
+\texttt{OPENMC\_CHAIN\_FILE}, so no file path is written in the source.
+
+\subsection{Core model}
+
+The five modules of Table~\ref{tab:arch-builders} build the OpenMC models
+in memory from a design dictionary. They have no command line and write
+no result file.
+
+\begin{table}[htbp]
+  \centering\footnotesize
+  \caption{Core model: modules imported by the physics scripts.}
+  \label{tab:arch-builders}
+  \begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{3.6cm} X@{}}
+    \toprule
+    Module & Role \\
+    \midrule
+    \file{reactor_model.py} & Materials, fuel pin, guide tube, control rod
+      universes, $17\times17$ assembly and 32-assembly core, gadolinia
+      pin pattern \\
+    \file{zoning.py} & Ring map and enrichment multipliers of the zoned
+      core, control bank positions, core solve at beginning of life \\
+    \file{core_geometry.py} & Vessel envelope, geometric constraint,
+      end-of-cycle crossing of the reactivity history, interpolation of
+      the $k_\mathrm{target}$ table \\
+    \file{leu_policy.py} & Enrichment limit and bounds of the design
+      space, defined once for the evaluator and the optimiser \\
+    \file{hardware3d.py} & Three-dimensional core with the axial stack of
+      the assembly, the control rod stack, the core barrel, the
+      downcomer and the vessel wall \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\subsection{Design evaluator}
+
+The evaluator, \file{openmc_evaluator.py}, maps a design vector to the
+objectives and the constraints of Campaign 9:
+
+\[
+  \mathbf{x} = \left(e,\, w_{\mathrm{Gd}},\, t_{\mathrm{refl}},\, n_{\mathrm{Gd}}\right)
+  \quad\longmapsto\quad
+  \left(F_{\Delta H},\, c_\mathrm{max},\, \mathbf{g}\right)
+\]
+
+\noindent where $e$ is the enrichment, $w_{\mathrm{Gd}}$ the gadolinia
+weight fraction, $t_{\mathrm{refl}}$ the reflector thickness,
+$n_{\mathrm{Gd}}$ the number of poisoned pins, and $\mathbf{g}$ the
+constraint vector of Section~\ref{sec:meth-c9}, each entry normalised by
+its limit. For each design it executes the assembly depletion, which
+gives the cycle length through the end-of-cycle crossing of
+$k_\mathrm{target}$ read from \file{ktarget_table_c8.json}, and the core
+solves at beginning of life, unrodded at 1000, 2000 and, where needed,
+\SI{3000}{ppm}, and with the regulating banks inserted. The module
+\file{boron_objective.py} turns the unrodded solves and the hump of the
+depletion history into $c_\mathrm{max}$ with
+Equation~\eqref{eq:c9-cmax}, and it has no OpenMC dependency, so the
+post-analysis reuses it.
+
+\subsection{Optimiser}
+
+Table~\ref{tab:arch-optimiser} lists the scripts of the loop and of the
+continuation of the search. The checkpoint of Campaign 9 is
+\file{out_c9/optimization_checkpoint.json}, and that of the continuation
+\file{out_c9a/optimization_checkpoint.json}.
+
+\begin{table}[htbp]
+  \centering\footnotesize
+  \caption{Optimiser: scripts of the loop and of the continuation.}
+  \label{tab:arch-optimiser}
+  \begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{4.3cm} X >{\raggedright\arraybackslash}p{3.4cm}@{}}
+    \toprule
+    Script & Role & Output \\
+    \midrule
+    \file{reactor_optimization.py} & Design space, Gaussian-process
+      surrogates, NSGA-II on the surrogates, acquisition function,
+      hypervolume & \file{optimization_}\newline\file{checkpoint.json} \\
+    \file{run_optimization.py} & Command-line program: design of
+      experiments, infill iterations, resume, stored settings & execution log \\
+    \file{axial_ratio_model.py} & Fit of the ratio of the eight-layer to
+      the assembly cycle length, Equation~\eqref{eq:axial-floor} &
+      minimum assembly cycle length per design \\
+    \file{seed_c9_floor.py} & Campaign 9 designs rescored under the
+      constant minimum of stage 1 & seed checkpoint \\
+    \file{seed_c9_axial.py} & Designs rescored under the rule of
+      stage 2 & seed checkpoint \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\subsection{Post-analysis with transport}
+
+The scripts of Table~\ref{tab:arch-ptr} read a checkpoint, select
+designs by index or by front membership, execute OpenMC at the fidelity
+given on their command line, store every solve in a \file{runs.json}
+keyed by design and configuration, and write a \file{summary.json}. The
+store makes every script resumable.
+
+\begin{table}[htbp]
+  \centering\footnotesize
+  \caption{Post-analysis of Campaign 9: scripts that execute OpenMC.}
+  \label{tab:arch-ptr}
+  \begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{4.3cm} X >{\raggedright\arraybackslash}p{1.6cm}@{}}
+    \toprule
+    Script & Role & Section \\
+    \midrule
+    \file{dep_common.py} & Functions shared by the three depletion scripts
+      below & -- \\
+    \file{c9_dep_replicas.py} & Seed replicates and high-fidelity
+      assembly depletion of the front &
+      \ref{sec:res-c9-dep-check} \\
+    \file{c9_dep_core2d.py} & Depletion of the zoned two-dimensional core
+      & \ref{sec:res-c9-axial} \\
+    \file{c9_dep_core3d.py} & Depletion of the three-dimensional core in
+      $N$ axial layers, for the 8 designs, the continuation, the
+      rod-count study and the seed replicates & \ref{sec:res-c9-gd},
+      \ref{sec:res-c9-axial} \\
+    \file{axial_shape_c9.py} & Axial power shape, burnup profile and
+      peaking factors over the cycle & \ref{sec:res-c9-axial} \\
+    \file{confirm3d.py} & Three-dimensional core with the structural
+      components in 3 rod configurations, 2 seeds &
+      \ref{sec:res-c9-ctrl3d}, \ref{sec:res-c9-peaking} \\
+    \file{ladder_core_c9.py} & Fidelity study of the core peaking
+      estimator & \ref{sec:res-c9-peaking} \\
+    \file{mtc_scan.py} & Moderator temperature coefficient against boron
+      at 2 temperatures & \ref{sec:res-c9-ceiling} \\
+    \file{boron_worth.py} & Boron worth over the scanned concentrations &
+      \ref{sec:res-c9-front} \\
+    \file{c9_eval_predicted_front.py} & Transport evaluation of the front
+      predicted by the surrogates & \ref{sec:res-c9-validation} \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\subsection{Post-analysis without transport}
+
+The scripts of Table~\ref{tab:arch-pnt} read the checkpoints and the
+stored results of the transport scripts, and execute no transport
+calculation.
+
+\begin{table}[htbp]
+  \centering\footnotesize
+  \caption{Post-analysis of Campaign 9: scripts that read stored results.}
+  \label{tab:arch-pnt}
+  \begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{4.3cm} X >{\raggedright\arraybackslash}p{1.6cm}@{}}
+    \toprule
+    Script & Role & Section \\
+    \midrule
+    \file{c9_front.py} & Feasible designs, front, two-bank designs &
+      \ref{sec:res-c9-front} \\
+    \file{c9_surrogate_cv.py} & Leave-one-out and walk-forward validation
+      of the surrogates & \ref{sec:res-c9-validation} \\
+    \file{c9_step0.py} & Front membership under the transport noise &
+      \ref{sec:res-c9-validation} \\
+    \file{c9_gp_predicted_fronts.py} & Front predicted by the surrogates
+      after each refit & \ref{sec:res-c9-validation} \\
+    \file{c9_acquisition_replay.py} & A posteriori re-execution of the
+      acquisition under 6 selection rules & \ref{sec:res-c9-acq} \\
+    \file{c9_replay_fidelity.py} & Agreement of the re-execution with the
+      evaluated designs & \ref{sec:res-c9-acq} \\
+    \file{c9_reverse_retro.py} & Campaign 9 designs under the objectives of
+      Campaign 8 & \ref{sec:res-c9-compare} \\
+    \file{c9_peaking_2d3d.py} & Two- against three-dimensional peaking
+      factor & \ref{sec:res-c9-peaking} \\
+    \file{c9_axial_checks.py} & Statistical checks of the layered
+      depletions & \ref{sec:res-c9-axial} \\
+    \file{c9_axial_correction.py} & Gadolinia-dependent cycle-length
+      ratio, Equation~\eqref{eq:axial-gd} & \ref{sec:res-c9-axial} \\
+    \file{c9_axial_rescore.py} & Front before and after the axial
+      correction & \ref{sec:res-c9-axial} \\
+    \file{mtc_front_table.py} & Three-point fit of each MTC scan, limit and
+      margin of each lattice & \ref{sec:res-c9-ceiling} \\
+    \file{c9_repro_check.py} & Reproducibility of the depletion with the
+      campaign seed & \ref{sec:meth-fid-seed} \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\section{Interfaces between blocks}\label{sec:arch-interfaces}
+
+Table~\ref{tab:arch-interfaces} lists the files that cross the block
+boundaries of Figure~\ref{fig:code-architecture}. Every file is plain
+text, JSON or CSV, so any stage can be inspected without the code.
+
+\begin{table}[htbp]
+  \centering\footnotesize
+  \caption{Code of Campaign 9: files exchanged between the blocks.}
+  \label{tab:arch-interfaces}
+  \begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{4.6cm} >{\raggedright\arraybackslash}p{2.4cm} >{\raggedright\arraybackslash}p{2.4cm} X@{}}
+    \toprule
+    File & Producer & Consumer & Content \\
+    \midrule
+    \file{ktarget_table_c8.json} & Campaign 8 & Evaluator &
+      $k_\mathrm{target}$ against reflector thickness, with the axial
+      factor $L_{\mathrm{ax}}$ \\
+    design vector $\mathbf{x}$ & Optimiser & Evaluator & One design per
+      call \\
+    $(F_{\Delta H}, c_\mathrm{max}, \mathbf{g})$ & Evaluator & Optimiser &
+      Objectives and normalised constraints \\
+    \file{out_c9/optimization_}\newline\file{checkpoint.json} & Optimiser &
+      Post-analysis & Every evaluation of Campaign 9 with its
+      settings \\
+    \file{out_c9a/optimization_}\newline\file{checkpoint.json} & Optimiser &
+      Post-analysis & Every evaluation of the continuation \\
+    \file{runs.json}, \file{summary.json} & Post-analysis with transport &
+      Post-analysis without transport & Solves and results of each study \\
+    eight-layer cycle lengths & Post-analysis & Optimiser & Constraint of the
+      continuation of the search \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+The checkpoint is the central file. It is written after every infill
+iteration and stores the design space, the constraint definition, the
+transport fidelity, the $k_\mathrm{target}$ table and the command line.
+A resumed execution compares these fields with its own arguments and
+warns on any difference. Every post-analysis script reads the
+checkpoint and not the case directories, so a campaign can be analysed
+again from a single file.

@@ -1,3 +1,11 @@
+% !TEX root = Thesis_template.tex
+% =====================================================================
+%  appendix_model_inputs.tex
+%  Appendix A: record of every input value of the reactor model.
+%  Values read from the simulation repository, whose branch and commit
+%  are recorded in Appendix B. Formulas are given in the main text.
+% =====================================================================
+
 \chapter{Record of the model input data}
 \label{app:model-inputs}
 \label{app:labgene-data}
@@ -8,9 +16,9 @@
 This appendix records the value of every input of the reactor model,
 its origin, and whether it was validated in this thesis. The formulas
 that use these values are given in the main text. All values were read
-from the simulation repository, branch \texttt{main}, commit
-\texttt{e4a3582}, the state described in
-Appendix~\ref{app:code-architecture}. The codes of the tables are given
+from the simulation repository, in the state that
+Appendix~\ref{app:code-architecture} records with its branch and its
+commit. The codes of the tables are given
 in Table~\ref{tab:in-key}.
 
 \begin{table}[htbp]
@@ -24,14 +32,14 @@ in Table~\ref{tab:in-key}.
     \midrule
     BRZ & Stated by the Brazilian Navy or the Brazilian government \\
     LIT & Stated in a peer-reviewed article, a laboratory report or a code manual \\
-    REF & Taken from the NuScale-class reference benchmark adopted as design analogue \\
+    REF & Taken from the NuScale-class reference benchmark adopted as design analog \\
     INF & Inferred from open information that does not state the value directly \\
     EST & Engineering estimate of this work \\
     NUM & Numerical setting with no physical counterpart \\
     DER & Derived from other entries \\
     \midrule
     V = Y & Confirmed by a verification calculation of this thesis \\
-    V = P & Bounded by a sensitivity calculation of this thesis, not confirmed \\
+    V = P & Limits given by a sensitivity calculation of this thesis, not confirmed \\
     V = N & Adopted as given, not verified in this thesis \\
     \bottomrule
   \end{tabularx}
@@ -100,7 +108,7 @@ Vessel height & 470 & cm & INF & \cite[Fig.~13]{maruyama_2013} & N & (b) \\
 Core barrel thickness & 5.08 & cm & REF & \cite{fridman_nuscale_benchmark_2023} & P & \\
 Downcomer allowance & 2.0 & cm & EST & This work & P & (c) \\
 Reserved radial clearance & 7.08 & cm & DER & Barrel plus downcomer & Y & \\
-Lattice-corner pad & 0.02 & cm & NUM & This work & Y & (d) \\
+Lattice-corner tolerance & 0.02 & cm & NUM & This work & Y & (d) \\
 Core map & 32 assemblies, $6\times6$ minus corners & -- & INF & This work & P & (e) \\
 Fuel envelope radius at 1.26\,cm & 77.231 & cm & DER & Equation~\eqref{eq:renv} & Y & \\
 Largest reflector thickness at 1.26\,cm & 5.669 & cm & DER & Equation~\eqref{eq:ggeom} & Y & \\
@@ -155,8 +163,8 @@ Guide tube outer radius & 0.612 & cm & REF & \cite{nuscale_htp2_2017,fridman_nus
 Fuel rod pitch & 1.26 & cm & EST & Fixed from Campaign~8 & Y & (b) \\
 Assembly pitch & 21.42 & cm & DER & $17\times$ rod pitch & Y & \\
 Intra-assembly enrichment zones & Central $9\times9$ inner, remainder outer & -- & EST & This work & P & (c) \\
-Gadolinia rod ladder & 12, 16, 20, 24, 32, 40 & rods & EST & After \cite{bae_gd_2023,epr_fsar_ch4,nuscale_htp2_2017} & P & \\
-Spacer grid band height & 4.445 & cm & REF & \cite{fridman_nuscale_benchmark_2023} & P & (d) \\
+Gadolinia rod-count patterns & 12, 16, 20, 24, 32, 40 & rods & EST & After \cite{bae_gd_2023,epr_fsar_ch4,nuscale_htp2_2017} & P & \\
+Spacer grid height & 4.445 & cm & REF & \cite{fridman_nuscale_benchmark_2023} & P & (d) \\
 Number of spacer grids & 4 & -- & EST & This work, 5 on 200\,cm in the benchmark & P & (d) \\
 Spacer grid span & 41.4 & cm & EST & This work & P & (d) \\
 First grid offset above fuel bottom & 3.555 & cm & REF & \cite{fridman_nuscale_benchmark_2023} & P & (d) \\
@@ -288,7 +296,7 @@ Soluble boron concentration & 1000 & ppm & EST & This work & P & \\
 \endlastfoot
 Rodded assemblies & 32 of 32 & -- & EST & This work & P & \\
 Regulating banks & Inner 16 assemblies, RE1 to RE4 & -- & EST & This work & Y & \\
-Shutdown banks & Outer 16 assemblies & -- & EST & This work & P & \\
+Shutdown bank & Outer 16 assemblies & -- & EST & This work & P & \\
 Absorber of the screen & B$_4$C & -- & EST & This work & Y & \\
 Alternative absorber & AIC, 80 Ag, 15 In, 5 Cd & wt\% & REF & \cite{fridman_nuscale_benchmark_2023} & P & (a) \\
 Absorber radius, two-dimensional model & 0.433 & cm & REF & Benchmark notebook & N & (b) \\
@@ -394,6 +402,35 @@ Discharge-burnup screen & 55 & MWd/\hspace{0pt}kgHM & LIT & \cite{song_sanchez_2
 \normalsize
 
 % =====================================================================
+\section{Axial layout of the three-dimensional core model}
+\label{app:inputs-axial}
+
+Table~\ref{tab:axial-layout} gives the axial layout of the fuel assembly
+in the three-dimensional core model of Section~\ref{sec:reactor-model},
+with elevations measured from the outer bottom of the lower head and
+the assembly resting on the lower core plate.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Three-dimensional core model: axial layout of the fuel assembly, in millimetres.}
+  \label{tab:axial-layout}
+  \begin{tabular}{@{}lrrr@{}}
+    \toprule
+    \textbf{Item} & \textbf{Height} & \textbf{From} & \textbf{To} \\
+    \midrule
+    Bottom nozzle             &  101.6  & 1165.0 & 1266.6 \\
+    Lower end cap             &   12.05 & 1266.6 & 1278.6 \\
+    Active fuel               & 1200.0  & 1278.6 & 2478.6 \\
+    Plenum spring             &  134.9  & 2478.6 & 2613.5 \\
+    Upper end cap             &   12.05 & 2613.5 & 2625.6 \\
+    Upper coolant gap         &   84.8  & 2625.6 & 2710.4 \\
+    Top nozzle                &   90.2  & 2710.4 & 2800.6 \\
+    \addlinespace
+    Spacer grids, 4 of        &   44.45 & 1314.2 & 2600.8 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
 \section{Deviations from the reference benchmark}
 \label{app:inputs-departures}
 

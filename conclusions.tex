@@ -1,18 +1,538 @@
 \chapter{Conclusions}
 \label{ch:conclusions}
 
-\section{Summary of the study and its findings}
+\section{Summary of the study and its results}
 \label{sec:concl-answer}
 
-\section{Reformulation of the cycle length as a constraint}
+The study investigated which core designs a LABGENE-class pressurised
+water reactor of \SI{48}{MW} thermal could adopt when the only
+information available is the open literature. It answered by building
+a surrogate-assisted multi-objective optimisation around a Monte Carlo
+model of the core and executing it over 9 campaigns, 636 evaluations,
+each campaign changing one element of the method, followed by a
+post-analysis of Campaign 9 on the three-dimensional core and a
+continuation of its search with 36 further evaluations. Campaigns 1 to
+8 maximised the cycle length and minimised the radial peaking factor.
+Campaign 9 minimised the peaking factor and the critical boron concentration under a minimum cycle length. Within the model and the design space of this work, the study reached five results:
+
+\begin{enumerate}
+  \item \textbf{In this study a limit derived from a few designs was not
+        a substitute for the measurement on each design:} in the four
+        cases where one replaced the other, the derived limit
+        misclassified designs near the boundary it decided:
+        \begin{itemize}
+          \item the upper reactivity bound of 1.126 on the core
+                multiplication factor, derived from the bank worth of 8
+                Campaign 6 designs, rejected 14 designs whose own bank
+                worth made them controllable
+                (Section~\ref{sec:res-c7-screens}),
+          \item the MTC boron limit of C8-47, applied to every
+                Campaign 9 design, accepts C9-57, which its own limit
+                rejects by \SI{193}{ppm} (Section~\ref{sec:res-c9-ceiling}),
+                    \item the constant minimum assembly cycle length of stage 1
+                of the continuation admitted C9-72, which fails the
+                mission by \SI{44}{d} (Section~\ref{sec:res-c9-cont}),
+          \item the gadolinia-dependent minimum assembly cycle length of
+                stage 2 admitted C9-85 and C9-88, which fail, and
+                rejected C9-11, which passes
+                (Section~\ref{sec:res-c9-cont}).
+        \end{itemize}
+  \item \textbf{The cycle length of this core is a requirement to be
+        satisfied and not an objective:} every Campaign 8 front member
+        satisfied the refuelling interval of \SI{1826}{EFPD}, with
+        margins from \SI{115}{EFPD} to a factor of 3.2, and the excess reactivity of
+        the longer cycle, \num{8930} to \SI{13627}{pcm}, had to be
+        compensated by the four regulating banks at a large insertion
+        depth at power (Section~\ref{sec:concl-reform}), so the
+        challenge of this core is the control of the excess reactivity
+        that a longer cycle requires.
+  \item \textbf{At the required cycle length the boron the core needs
+        decreases as its gadolinia loading increases:} among the
+        feasible Campaign 9 designs within \SI{0.35}{wt\%} of
+        \SI{4.31}{wt\%} enrichment, the critical boron concentration at
+        the operating maximum decreases from 3003 to \SI{1406}{ppm} as
+        the gadolinia increases from 0.14 to \SI{4.42}{wt\%}, because a
+        concentrated pin burns out slowly enough that no mid-cycle hump
+        appears (Section~\ref{sec:res-c9-gd}).
+    \item \textbf{The assembly depletion, with its axially uniform
+        burnup, overestimates the cycle length of the core:} the
+        three-dimensional core depleted in 8 axial layers has a cycle 15
+        to 25 per cent shorter than the assembly value, while the same
+        core depleted with uniform burnup is within a few per cent of
+        it, so the overestimate comes from the burnup distribution along
+        the height (Section~\ref{sec:res-c9-axial}). Its effect depends
+        on the formulation:
+        \begin{itemize}
+          \item with the cycle length as an objective, the overestimate
+                shifts the front towards longer cycles and, because the
+                reduction depends on the gadolinia loading, can reorder
+                it,
+          \item with the cycle length as a constraint, the front is
+                placed on that constraint, so the reduction decides which
+                designs are feasible and has to be applied to the
+                constraint. No member of the Campaign 9 front satisfies
+                the minimum cycle length once it is applied, and near
+                that minimum only the eight-layer depletion applies it
+                with enough accuracy.
+        \end{itemize}
+  \item \textbf{A proxy has to be validated on the ordering it produces near the front:} the single-seed estimator of Campaign 2, the
+        assembly peaking factor of Campaign 3 and the two-dimensional
+        peaking factor of Campaign 9 pass the correlation usually
+        applied to them and still reorder the designs near the front
+        (Sections~\ref{sec:res-corevalidation}
+        and~\ref{sec:res-c9-peaking}).
+\end{enumerate}
+
+\subsection{The proxies of the study and their validation}
+\label{sec:concl-proxies}
+
+Each campaign evaluated its designs through proxies, quantities computed in place of the ones wanted, because the wanted ones were too expensive to
+compute at every evaluation. The study used 13 proxies. Ten
+are used inside the optimisation loop, where they decide which designs
+are evaluated and which are feasible, and the other 3, the linear boron
+extrapolation, the lattice moderator temperature coefficient and the
+common MTC boron limit, enter the post-analyses. Twelve were tested and
+are listed below, and the thirteenth, the depletion at a constant
+\SI{1000}{ppm}, was never tested.
+
+Each proxy was compared with the quantity it approximates, computed by
+the more expensive calculation it replaces, for example the assembly
+peaking factor with the core solve and the assembly cycle length with
+the eight-layer depletion, and the comparison decided whether it was
+kept or replaced. Five proxies remained within a stated magnitude:
+
+\begin{itemize}
+  \item \textbf{Leakage-corrected $k_\mathrm{target}$ on the assembly
+        depletion, every campaign, for the end of cycle of the core:}
+        on 10 Campaign 8 designs the drift over burnup is
+        $-13 \pm \SI{30}{pcm}$, and the beginning-of-life residual,
+        $+174$ to \SI{-329}{pcm} ordered by enrichment, is worth $-14$
+        to \SI{+56}{d} of cycle without changing the order of the front
+        (Section~\ref{sec:res-kt-burnup}). Kept, since a core depletion
+        at every evaluation is not affordable.
+  \item \textbf{Axial leakage factor $L_\mathrm{ax} = 1.0289$,
+        Campaigns 8 and 9, for the unrodded finite-height core:} within
+        $-25$ to \SI{+211}{pcm} on the Campaign 8 designs and 80 to
+        \SI{240}{pcm} above it on the Campaign 9 designs measured in
+        three dimensions, against a
+        systematic \SI{80}{pcm}. The rodded factors are smaller, so the
+        two-dimensional controllability constraint is conservative by
+        1272 to \SI{2671}{pcm} (Section~\ref{sec:res-kt-burnup}). Kept
+        for the unrodded multiplication factor.
+  \item \textbf{Gaussian-process surrogates, every campaign, for the
+        evaluator inside the search:} leave-one-out $R^2$ of 0.988 for
+        the cycle length and 0.690 for the peaking factor in
+        Campaign 8, and no predictive accuracy for the cycle length on
+        the feasible designs of Campaign 9, $R^2 = -0.41$, where that
+        quantity is an active constraint
+        (Sections~\ref{sec:res-c8-validation}
+        and~\ref{sec:res-c9-validation}). Kept, because the surrogates
+        preserve the ordering of the design space, with $R^2 = 0.883$
+        for the cycle length over all 60 Campaign 9 designs, so the
+        search on them moves towards the region of better designs. 
+  \item \textbf{Linear extrapolation of the critical boron
+        concentration from the solve at \SI{1000}{ppm}, Campaign 8
+        post-analysis, for the root of the reactivity in boron:} within
+        \SI{21}{ppm} of the root on C8-47, the one design it was
+        checked on (Section~\ref{sec:res-c8-boron}). Replaced in
+        Campaign 9 by the root found between 2 solves for every design.
+  \item \textbf{Lattice moderator temperature coefficient, Campaign 9,
+        for the coefficient of the core:} measured on 11 lattices, with
+        the gadolinia loading confounded with the reflector thickness,
+        so the fitted limit is valid inside the converged region of the
+        campaign only (Section~\ref{sec:res-c9-ceiling}). Kept as the
+        MTC boron limit of each lattice, outside the loop.
+\end{itemize}
+
+Seven proxies failed on the ordering or the bound they were meant to
+preserve:
+
+\begin{itemize}
+  \item \textbf{Single-seed assembly estimator at $4\,000\times60$,
+        Campaigns 1 and 2, for the converged assembly peaking factor:}
+        stored values on average 0.07 below the high-fidelity
+        reference against a seed-to-seed standard deviation of
+        $0.015 \pm 0.003$ and a rank inversion of the finalists at
+        $|t| = 12.8$ (Sections~\ref{sec:res-c1c2}
+        and~\ref{sec:res-c3-fidelity}). Replaced from Campaign 3 by a
+        seed per design and $16\,000\times120$.
+  \item \textbf{Reflected-assembly peaking factor, Campaigns 1 to 3,
+        for the core peaking factor:} Spearman coefficient of $+0.890$
+        over the 36 uniform cores of Campaign 3 and a reordering of up
+        to 10 places near the front
+        (Section~\ref{sec:res-corevalidation}). Replaced by the core
+        solve as the objective from Campaign 4.
+  \item \textbf{Derived upper reactivity bound, Campaign 7, for
+        controllability by the regulating banks:} the bound of 1.126
+        rejected 14 designs whose measured bank worth made them
+        controllable (Section~\ref{sec:res-c7-screens}). Kept as an
+        outer bound from Campaign 8, with the measured controllability
+        constraint binding.
+  \item \textbf{Two-dimensional radial peaking factor, Campaigns 4 to
+        9, for the peaking factor of the three-dimensional core:} the
+        three-dimensional value shifts the 5 Campaign 9 front designs
+        by $+0.006$ to $-0.030$, and the shift changes which designs
+        are non-dominated, C9-40 entering the front and C9-44 and C9-35
+        leaving it (Section~\ref{sec:res-c9-peaking}). Kept as the
+        objective of the search, with the peaking of every front
+        measured in three dimensions in the post-analysis.
+  \item \textbf{Reflective-assembly depletion with axially uniform
+        burnup, every campaign, for the cycle length of the finite
+        core:} the eight-layer depletion of the three-dimensional core
+        gives a cycle 15 to 25 per cent shorter than the
+        reflective-assembly depletion on the 18 designs depleted both
+        ways. C9-47 and C9-35, the two Campaign 9 front members that
+        satisfy the minimum cycle length with the reflective-assembly
+        depletion, are 253 and \SI{185}{d} short of it with the
+        eight-layer depletion (Section~\ref{sec:res-c9-axial}). Replaced, for every front
+        member, by the eight-layer depletion of the three-dimensional
+        core, and the front rescored on it and the search continued
+        under it give C9-27, C9-69 and C9-70.
+  \item \textbf{MTC boron limit of C8-47, \SI{2763}{ppm}, Campaign 9,
+        for the limit of each lattice:} lattice limits of 2091 to
+        \SI{3128}{ppm} on 11 lattices, and the common limit accepts
+        C9-57, which its own limit rejects by \SI{193}{ppm}
+        (Section~\ref{sec:res-c9-ceiling}). Replaced by the limit of
+        each candidate lattice, and kept only for designs whose own
+        limit was not calculated.
+    \item \textbf{Gadolinia-dependent minimum assembly cycle length,
+        Equation~\eqref{eq:axial-floor}, stage 2 of the continuation of
+        Campaign 9, for the eight-layer depletion:} leave-one-out error
+        of 38 to \SI{51}{d} against margins of 7 to \SI{13}{d} near the
+        mission cycle length of \SI{1826}{EFPD}. The error of the rule is 3 to 6 times the margins by
+        which the designs near the minimum cycle length pass or fail,
+        so it cannot decide their feasibility, and it admits C9-85 and
+        C9-88, which fail when measured, and rejects C9-11, which
+        passes (Section~\ref{sec:res-c9-cont}).
+\end{itemize}
+
+The untested proxy, the depletion at a constant \SI{1000}{ppm}, is the proxy for the boron letdown of the operated core,
+so every cycle length of the study is a lower bound. The tests apply
+theory that the earlier chapters cite: the correlated sampling of Lux
+and Koblinger~\cite{lux_koblinger_1991} for the seed effect, Spearman's
+coefficient~\cite{kendall_gibbons_1990} and the multiplicative
+discrepancy of Kennedy and O'Hagan~\cite{kennedy_ohagan_2000} for the
+ordering and bridge tests, the multiplication-factor description of
+Duderstadt and Hamilton~\cite{duderstadt_hamilton_1976} for the leakage
+hierarchy, and the leave-one-out and walk-forward procedures of
+Section~\ref{sec:validation-framework} on the Gaussian process of
+Rasmussen and Williams~\cite{rasmussen_gp_2006}. The derived bound, the
+lattice coefficient and the constant boron have no basis in the
+literature cited and are assumptions of this work.
+
+\section{The two formulations of the optimisation problem}
 \label{sec:concl-reform}
 
-\section{Candidate designs}
+Campaigns 1 to 8 maximised the cycle length against the peaking factor,
+a reasonable formulation for a core whose attainable cycle length is
+not known in advance. Campaign 8 showed its restriction once
+controllability was measured. Every front member satisfied the
+refuelling interval of \SI{1826}{EFPD} with margin, the objective kept increasing
+the cycle length after the requirement was satisfied, and it could do
+so only by raising the beginning-of-life excess reactivity, \num{8930}
+to \SI{13627}{pcm}, which the four regulating banks then compensate at
+a large insertion depth at power (Section~\ref{sec:res-c8-mission}).
+The two-bank designs of the same campaign, at \num{2564} to
+\SI{4068}{pcm}, are in the regime of the NuScale-like reference core,
+whose rods compensate about \SI{2700}{pcm}, and 2 of them, C8-13 and
+C8-31, satisfy the interval (Section~\ref{sec:res-c8-split}).
+
+Campaign 9 therefore minimised the peaking factor and the critical
+boron concentration at the operating maximum, with the minimum cycle
+length as a constraint (Section~\ref{sec:meth-c9}). The second
+objective expresses the beginning-of-life excess reactivity and the
+gadolinium hump in one quantity, in the unit in which the moderator
+temperature coefficient limits it. The reformulation follows from three
+results of Campaign 8:
+
+\begin{itemize}
+  \item \textbf{Cycle length:} in a design space with enrichment up to
+        \SI{13.9}{wt\%}, every front member reaches the minimum cycle
+        length of the mission with margin, so the cycle length no
+        longer discriminates between candidates.
+  \item \textbf{Excess reactivity:} the longer cycle is obtained only by
+        a larger excess reactivity at beginning of life, which is the
+        quantity that limits the design.
+  \item \textbf{Control rods:} the bank design and the rod worths of
+        LABGENE are not public, so the rod worths and the MTC boron
+        limit are those of the NuScale-like reference. Within them, an
+        objective on the critical boron concentration selects the
+        designs whose excess reactivity boron and burnable absorber
+        compensate, with only the first two regulating banks in normal
+        operation. None of the 8 Campaign 8 front members satisfies
+        that criterion, while every member of the Campaign 9 front and
+        of the final front does (Section~\ref{sec:res-c9-ctrl3d}).
+\end{itemize}
+
+The results of Campaigns 8 and 9 determine the domain of application
+of each formulation:
+
+\begin{itemize}
+  \item \textbf{Cycle length as an objective, Campaigns 1 to 8:} the
+        better formulation when the attainable cycle length of a design
+        space is unknown, since it measures how far the cycle can be
+        extended and at what peaking. It has no bound on the excess
+        reactivity, so its front is controllable only with the
+        regulating banks deep in the core.
+  \item \textbf{Cycle length as a constraint, Campaign 9:} the better
+        formulation once the mission fixes the cycle length, since a
+        cycle beyond the requirement gives the mission nothing and
+        requires excess reactivity that the control system must
+        compensate. Its front is at the minimum cycle length and is
+        operable with boron and burnable absorber. The campaign front
+        needs 1406 to \SI{1908}{ppm} at the operating maximum, and the
+        first two regulating banks alone keep every member subcritical
+        by 9228 to \SI{9545}{pcm} in three dimensions
+        (Section~\ref{sec:res-c9-ctrl3d}). The final front C9-27, C9-69
+        and C9-70, after the axial correction, needs 1633 to
+        \SI{2268}{ppm}, with two-bank margins of 2222 to \SI{6316}{pcm}
+        (Section~\ref{sec:res-c9-cont-front}).
+\end{itemize}
+
+\section{Achievement of the objectives of the study}
 \label{sec:concl-candidates}
+
+The first objective of Section~\ref{sec:intro-objectives}, the
+framework, was reached. Its loop has two parts
+(Section~\ref{sec:meth-loop}):
+
+\begin{itemize}
+  \item \textbf{Search on the surrogates:} the NSGA-II search on the
+        Gaussian-process surrogates proposes the designs to evaluate,
+        and it determines the direction of the search, the region of
+        the design space where the surrogates predict the front to be.
+        Figure~\ref{fig:c9-gp-fronts} validates this part in Campaign 9:
+        as the training data grow from 24 to 60 evaluations, the
+        predicted front narrows in $F_{\Delta H}$ from 1.487 to 1.640 to
+        1.495 to 1.535, onto the 1.490 to 1.545 of the evaluated front,
+        so the surrogates give the search its direction.
+  \item \textbf{OpenMC evaluation:} the transport evaluation of the
+        selected batch computes the objectives and constraints of those
+        designs, and it determines the accuracy of the front, since
+        every value of a front member is a transport result.
+\end{itemize}
+
+ The acquisition
+function of the first part selects, among the predicted front, the
+designs whose evaluation reduces the uncertainty of the surrogates
+most, and their results enter the training data at the next iteration,
+so with each infill iteration the surrogates are refitted on more
+evaluations near the front and their predictions there become more
+precise, until the stopping rule of Section~\ref{sec:meth-loop-stop}
+finds no further gain in hypervolume.
+
+The framework gave a Pareto front in every campaign, and the quality
+of that front depends on the refinement of the model and on the
+definition of the constraints, so each campaign from 1 to 9 improved
+the optimiser by changing one element of it. Campaign 6 defined the
+acquisition function one element per infill block, and Campaign 9
+showed the restriction of that function when the search is on a
+constraint that is active on the front, where its feasibility margin
+rejects every candidate (Section~\ref{sec:res-c9-acq}). The surrogates
+and the fronts of the last two campaigns were validated against the
+evaluations and against the transport noise
+(Sections~\ref{sec:res-c8-validation}
+and~\ref{sec:res-c9-validation}).
+
+The second objective of Section~\ref{sec:intro-objectives}, a set of
+candidate core configurations, was also reached. It is the result of
+the post-analysis of Campaign 9 on the three-dimensional core depleted
+in 8 layers and of the continuation of the search under that cycle
+length, the most refined optimiser and core model of this thesis, and
+it replaces the candidates of the campaigns. The candidate
+configurations are the front C9-27, C9-69 and C9-70
+(Section~\ref{sec:res-c9-cont-front}), the most accurate results of
+the study. That measurement is also the validation
+against a model of higher fidelity than the loop model that the first
+objective requires. Table~\ref{tab:concl-front} gives every
+quantity measured on them.
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \begin{threeparttable}
+  \caption{Final front of Campaign 9: design variables and three-dimensional measurements.}
+  \label{tab:concl-front}
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{@{}lccc@{}}
+    \toprule
+    Quantity & C9-27 & C9-69 & C9-70 \\
+    \midrule
+    Enrichment $e$ [wt\%] & 5.11 & 4.87 & 4.87 \\
+    Gadolinia $w_\mathrm{Gd}$ [wt\%] & 5.70 & 4.38 & 4.41 \\
+    Poisoned pins $n_\mathrm{Gd}$ & 24 & 16 & 20 \\
+    Reflector thickness $t_\mathrm{refl}$ [cm] & 5.66 & 5.66 & 5.66 \\
+    $F_{\Delta H}$, 2D campaign value & 1.603 & 1.526 & 1.557 \\
+    $F_{\Delta H}$, 3D & 1.565 & 1.496 & 1.516 \\
+    $c_\mathrm{max}$ [ppm] & 1633 & 2268 & 1840 \\
+    Assembly hump $\Delta\rho_\mathrm{hump}$ [pcm] & $-1800$ & $-1579$ & $-1010$ \\
+    $\mathrm{EFPD}_\mathrm{3D}$, 8 layers [d] & $1926 \pm 10$\tnote{a} & $1895 \pm 7$ & $1850 \pm 3$\tnote{a} \\
+    Margin over \SI{1826}{d} [d] & $+100$ & $+69$ & $+24$ \\
+    Axial leakage factor $L_\mathrm{ax}$ & 1.030 & 1.031 & 1.030 \\
+    Two-bank margin, 3D, \SI{1000}{ppm} [pcm] & 6316 & 2222 & 4941 \\
+        MTC boron limit at \SI{12.8}{MPa} [ppm] & $3128 \pm 111$\tnote{b} & $2867 \pm 115$ & $3018 \pm 102$\tnote{b} \\
+    MTC margin [ppm] & $+1495$ & $+599$ & $+1178$ \\
+    Origin & rescoring of Campaign 9 & stage 1 & stage 1 \\
+    \bottomrule
+  \end{tabular}
+  \begin{tablenotes}[flushleft]\footnotesize
+    \item[a] Mean of 5 seeds and standard error of the mean.
+        \item[b] Extrapolated beyond the scanned \SI{3000}{ppm}.
+  \end{tablenotes}
+  \end{threeparttable}
+\end{table}
+
+C9-27 is the recommended design. It needs the least boron of any design
+that satisfies the minimum cycle length, has the largest cycle margin,
+the largest MTC margin and the largest two-bank margin of the front, and
+no mid-cycle hump. C9-69 and C9-70 give a lower peaking
+factor at 635 and \SI{207}{ppm} more boron and a smaller margin.
 
 \section{Limitations}
 \label{sec:concl-limits}
 
+Section~\ref{sec:res-uncertainty} collects the sources of uncertainty
+of the study, and 7 of them affect the conclusions:
+
+\begin{enumerate}
+  \item \textbf{Axially uniform burnup in the loop:} every campaign
+        cycle length is an assembly value that overestimates the core
+        by 15 to 25 per cent. The final front comes from the
+        post-analysis and from a continuation that applied the
+        eight-layer depletion to front members only, and stage 2 spent
+        10 of its 18 evaluations above the MTC boron limit, so a better
+        design under the corrected requirement may exist in the region
+        the search did not reach.
+  
+  \item \textbf{Two-dimensional peaking in the loop:} the campaign
+        value overestimates the peaking factor by 0.060 to 0.077, and
+        the three-dimensional shift, up to $-0.030$, reorders
+        neighbouring designs, so 5 of the 10 pairs of the campaign
+        front are not distinguishable by one campaign solve.
+  \item \textbf{Constant boron and no thermal-hydraulic feedback:}
+        every cycle length is a lower bound for a core with boron
+        letdown, and the moderator temperature coefficient enters only
+        through a limit measured outside the loop on 11 lattices, valid
+        inside the converged region of Campaign 9, with margins
+        conservative by about \SI{450}{ppm} because the limit is
+        three-dimensional and the concentration two-dimensional.
+  \item \textbf{MTC boron limit outside the search:} the limit was
+        stored and not constrained, so the acquisition placed 6 of the
+        36 infill evaluations of Campaign 9 and 10 of the 18 of stage 2
+        in the region below \SI{1}{wt\%} of gadolinia that the limit
+        excludes.
+    \item \textbf{Reference fuel loading of $k_\mathrm{target}$:} the
+        radial leakage factor decreases by $-64 \pm \SI{9}{pcm}$ per
+        wt\%, so the $k_\mathrm{target}$ read from the table, computed on
+        the reference fuel loading, is too high for a design of higher
+        enrichment, by about 500 to \SI{600}{pcm} at the upper
+        enrichment bound of Campaign 8. The depletion of such a design
+        reaches the end-of-cycle criterion earlier than its core would,
+        so its reported cycle length is shorter than the true one, which
+        is conservative. A new campaign that maximises the cycle length,
+        as Campaigns 1 to 8 did, should therefore compute
+        $k_\mathrm{target}$ over the enrichment as well as the reflector
+        thickness.
+    \item \textbf{Operating rather than licensing criteria:} two criteria
+        of this work are operating criteria and not the ones a licensing
+        analysis applies:
+        \begin{itemize}
+          \item the controllability constraint tests the rodded core at
+                hot full power with the operating boron, and not the
+                shutdown margin,
+          \item the discharge-burnup limit acts on the assembly-average
+                burnup, while fuel performance limits apply to the local
+                burnup, which reaches 1.35 times the core average in the
+                central layers of the axially resolved depletion of
+                Section~\ref{sec:res-c9-axial} and is not constrained.
+        \end{itemize}
+  \item \textbf{Boundary optimum:} every front member has the largest
+        reflector the vessel admits, so the front is conditional on the
+        vessel envelope and the clearance of
+        Section~\ref{sec:meth-c8-space}.
+\end{enumerate}
+
 \section{Continuation of this work}
 \label{sec:concl-future}
 
+The post-analysis of Campaign 9 shows that the formulation of the
+problem and the surrogate-assisted loop can be refined in a new
+campaign. Five changes to a new campaign have the most value, in decreasing order of their expected
+effect on its results:
+
+\begin{enumerate}
+    \item \textbf{Eight-layer depletion in place of the assembly
+        depletion:} the evaluator depletes the three-dimensional core in
+        8 axial layers instead of the reflective assembly:
+        \begin{itemize}
+          \item \textbf{Reason:} the assembly depletion, with its
+                axially uniform burnup, overestimates the cycle length
+                of the core by 15 to 25 per cent, and no correction of
+                it decides feasibility near the minimum cycle length
+                (Section~\ref{sec:res-c9-axial}).
+          \item \textbf{Setting:} $20\,000$ particles per batch over 90
+                batches, 40 of them inactive, which gives a statistical
+                error of about \SI{21}{d} on one cycle length, the
+                measured \SI{15.1}{d} at 100 active batches scaled to
+                50, below the \SI{29.1}{d} of the assembly depletion of
+                Campaign 9, at about \SI{40}{min} per evaluation.
+          \item \textbf{Expected effect:} the cycle-length constraint is
+                evaluated on the burnup distribution the core develops,
+                the surrogate is trained on that value, and the search
+                places its front at the minimum cycle length of the core
+                instead of 15 to 25 per cent above it.
+          \item \textbf{Confirmation:} the front members are then
+                depleted again at the setting of the post-analysis,
+                $20\,000$ particles per batch over 160 batches, 60 of
+                them inactive, as in the two-tier fidelity strategy of
+                Section~\ref{sec:meth-fid-settings}, where the search
+                uses a low-fidelity depletion, so the reduced fidelity
+                selects the candidates and the higher fidelity confirms
+                them.
+        \end{itemize}
+        \item \textbf{MTC boron limit as a constraint of the search:} the
+        a posteriori re-execution of Section~\ref{sec:res-c9-acq} shows
+        that, with the MTC boron limit as a constraint of the search, the
+        batches of Campaign 9 contain no design above the limit and 5
+        instead of 11 designs below \SI{1}{wt\%} of gadolinia, the region
+        where the designs are infeasible on that limit and where the
+        campaign spent 6 of its 36 infill evaluations and stage 2 of the
+        continuation 10 of its 18. In a new campaign the limit of each
+        lattice, or until it is measured the logarithmic law of
+        Section~\ref{sec:res-c9-ceiling} inside its range, enters the
+        constraints of the surrogate search.
+        \item \textbf{Acquisition function for an optimum on a constraint:}
+        the acquisition function is changed so that it still
+        discriminates between candidates when the optimum is on a
+        constraint, with one of two proposals:
+        \begin{itemize}
+          \item \textbf{Confidence bound inside the search:} the
+                constraint $\mu_{ij} + \kappa\,\sigma_{ij} \le 0$ of safe
+                exploration~\cite{sui_safeopt_2015} is applied inside the
+                NSGA-II search, so every candidate the search returns
+                already satisfies the margin, at the cost of a front kept
+                about \SI{42}{d} above the minimum cycle length.
+          \item \textbf{Probability of feasibility as a weight:} the
+                uncertainty score is multiplied by the probability of
+                feasibility of constrained Bayesian
+                optimisation~\cite[Sec.~5.4.2]{forrester_book_2008},
+                which keeps a design on the constraint at half weight
+                instead of rejecting it. The re-execution shows that a
+                ranking by the probability of feasibility alone is worse
+                than the margin, so the probability weights the score
+                and does not replace it.
+        \end{itemize}
+        \item \textbf{Operating conditions in the depletion:} a critical
+        boron search at each burnup step in place of the constant
+        \SI{1000}{ppm}, and thermal-hydraulic coupling to a subchannel
+        solver in place of the fixed temperatures, which give the cycle
+        length of an operated core in place of a lower bound, and the
+        departure from nucleate boiling and fuel temperature margins of
+        the candidates.
+    \item \textbf{Shutdown margin as a constraint:} the cold zero-power
+        core with every control rod assembly inserted except the one of
+        highest worth, evaluated at beginning of life and at the
+        operating maximum, in place of the controllability constraint
+        at hot full power, which gives a licensing-style shutdown
+        criterion.
+\end{enumerate}
