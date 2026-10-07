@@ -1994,20 +1994,28 @@ prediction at any new design $\mathbf{x}$~\cite{rasmussen_gp_2006}.
   \item $\mu_*(\mathbf{x})$ is the predicted mean at design
         $\mathbf{x}$, in the units of the output.
 
-  \item $\sigma_*^{2}(\mathbf{x})$ is the predictive variance of the
-        underlying response at $\mathbf{x}$, in the squared units of
-        the output.
+  \item $\sigma_*^{2}(\mathbf{x})$ is the predictive variance of a new
+        evaluation at $\mathbf{x}$, noise included, in the squared units
+        of the output. Because $k(\mathbf{x}, \mathbf{x}) =
+        \sigma_f^{2} + \sigma_n^{2}$, it never falls below the noise
+        variance, even at an evaluated design. It is the variance the
+        acquisition of Section~\ref{sec:meth-acq} ranks by, and the
+        variance of the underlying response is $\sigma_n^{2}$ smaller.
 
   \item $\mathbf{y}$ is the vector of the $n$ outputs of the database, in the
         units of the output.
 
-  \item $\mathbf{K}$ is the $n \times n$ matrix of kernel values
-        between the designs of the database, with entries
-        $K_{ij} = k(\mathbf{x}_i, \mathbf{x}_j)$.
+  \item $\mathbf{K}$ is the $n \times n$ matrix of the Mat\'ern part of
+        the kernel between the designs of the database, with entries
+        $K_{ij} = k(\mathbf{x}_i, \mathbf{x}_j) - \sigma_n^{2}\,
+        \delta_{ij}$. The noise enters once, through the term
+        $\sigma_n^{2}\mathbf{I}$ of the two equations.
 
   \item $\mathbf{k}_*$ is the vector of kernel values between the new
         design and each design of the database, with entries
-        $k(\mathbf{x}_i, \mathbf{x})$.
+        $k(\mathbf{x}_i, \mathbf{x})$. The new design is distinct from
+        every design of the database, so the white-noise term does not
+        contribute to it.
 
   \item $\mathbf{I}$ is the $n \times n$ identity matrix,
         dimensionless.
